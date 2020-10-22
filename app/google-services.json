@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "958531801882",
+    "firebase_url": "https://complimenter-58962.firebaseio.com",
+    "project_id": "complimenter-58962",
+    "storage_bucket": "complimenter-58962.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:958531801882:android:f27e2ed67b3223c906d2a3",
+        "android_client_info": {
+          "package_name": "com.shivam.complimenter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "958531801882-td435jqe39m1836sbl7db8qhupoevlgb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzNR0X1xbi_3ulIFclDRBu4ptpWeCfFo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "958531801882-td435jqe39m1836sbl7db8qhupoevlgb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

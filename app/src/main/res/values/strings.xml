@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Complimenter</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">login</string>
+    <string name="need_an_account">Need an account ? Sign Up</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_account">Already have account ? Sign in</string>
+    <string name="register">Register</string>
+    <string name="something_went_wrong">Something went wrong :(</string>
+    <string name="home">Home</string>
+    <string name="messages">Messages</string>
+    <string name="notifications">Notification</string>
+    <string name="settings">Settings</string>
+
+    <string name="lorem">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</string>
+    <string name="lorem_short">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </string>
+</resources>
