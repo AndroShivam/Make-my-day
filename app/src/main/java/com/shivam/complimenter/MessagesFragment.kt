@@ -5,27 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.shivam.complimenter.SendFragment.Companion.RECEIVED
 import com.shivam.complimenter.SendFragment.Companion.USERS
 import com.shivam.complimenter.databinding.FragmentMessagesBinding
-import kotlinx.android.synthetic.main.items_messages.view.*
-import org.w3c.dom.Text
-import com.shivam.complimenter.MessagesFragment.UserViewHolder as UserViewHolder
 
 
-class MessagesFragment : Fragment() {
+class MessagesFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentMessagesBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var adapter: FirestoreRecyclerAdapter<ReceivedMessage, UserViewHolder>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,42 +36,20 @@ class MessagesFragment : Fragment() {
         val firebaseAuth = FirebaseAuth.getInstance()
         val currentUserID = firebaseAuth.currentUser?.uid.toString()
 
-        val query: Query = firebaseFirestore.collection(USERS).document(currentUserID).collection(RECEIVED)
+        val query: Query =
+            firebaseFirestore.collection(USERS).document(currentUserID).collection(RECEIVED)
 
         val firestoreRecyclerOptions: FirestoreRecyclerOptions<ReceivedMessage> =
             FirestoreRecyclerOptions.Builder<ReceivedMessage>()
                 .setQuery(query, ReceivedMessage::class.java)
                 .build()
 
-        adapter = object :
-            FirestoreRecyclerAdapter<ReceivedMessage, UserViewHolder>(firestoreRecyclerOptions) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-                val view = LayoutInflater.from(requireContext())
-                    .inflate(R.layout.items_messages, parent, false)
-                return UserViewHolder(view)
-            }
-
-            override fun onBindViewHolder(
-                holder: UserViewHolder,
-                position: Int,
-                model: ReceivedMessage
-            ) {
-
-                holder.message.text = model.message
-                holder.sent_by.text = model.sent_by
-            }
-
-        }
+        adapter = MessagesAdapter(options = firestoreRecyclerOptions, listener = this)
 
         binding.messagesRv.setHasFixedSize(true)
         binding.messagesRv.adapter = adapter
 
         return binding.root
-    }
-
-    private class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var message: TextView = itemView.findViewById(R.id.message)
-        var sent_by: TextView = itemView.findViewById(R.id.sent_by)
     }
 
     override fun onStart() {
@@ -85,9 +61,10 @@ class MessagesFragment : Fragment() {
         super.onStop()
         adapter.stopListening()
     }
+
+    override fun onItemClick(position: Int) {
+        Toast.makeText(requireContext(), "Position : $position", Toast.LENGTH_SHORT).show()
+    }
+
 }
 
-data class ReceivedMessage(
-    var message: String = "message",
-    var sent_by: String = "sent_by"
-)
