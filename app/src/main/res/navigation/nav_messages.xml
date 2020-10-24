@@ -9,5 +9,25 @@
     <fragment
         android:id="@+id/nav_messages"
         android:name="com.shivam.complimenter.MessagesFragment"
-        android:label="@string/messages" />
+        android:label="@string/messages">
+        <action
+            android:id="@+id/action_nav_messages_to_messageDetailFragment"
+            app:destination="@id/messageDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/messageDetailFragment"
+        android:name="com.shivam.complimenter.MessageDetailFragment"
+        android:label="MessageDetailFragment">
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <argument
+            android:name="message"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="sender"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

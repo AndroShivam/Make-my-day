@@ -1,21 +1,28 @@
 package com.shivam.complimenter
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.shivam.complimenter.SendFragment.Companion.RECEIVED
-import com.shivam.complimenter.SendFragment.Companion.USERS
+import com.google.firebase.firestore.QueryDocumentSnapshot
+import com.shivam.complimenter.HomeFragment.Companion.RECEIVED
+import com.shivam.complimenter.HomeFragment.Companion.USERS
 import com.shivam.complimenter.databinding.FragmentMessagesBinding
+import java.io.Serializable
 
 
 class MessagesFragment : Fragment(), OnItemClickListener {
@@ -62,8 +69,18 @@ class MessagesFragment : Fragment(), OnItemClickListener {
         adapter.stopListening()
     }
 
-    override fun onItemClick(position: Int) {
-        Toast.makeText(requireContext(), "Position : $position", Toast.LENGTH_SHORT).show()
+    override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
+
+        val message: String? = documentSnapshot.getString("message")
+        val sender: String? = documentSnapshot.getString("sender")
+
+        val action = MessagesFragmentDirections.actionNavMessagesToMessageDetailFragment(
+            position = position,
+            message = message,
+            sender = sender
+        )
+
+        view?.findNavController()?.navigate(action)
     }
 
 }

@@ -7,15 +7,15 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.DocumentSnapshot
 
 
 class MessagesAdapter(
-    options: FirestoreRecyclerOptions<ReceivedMessage>,
-    listener: OnItemClickListener
+    val options: FirestoreRecyclerOptions<ReceivedMessage>,
+    val listener: OnItemClickListener
 ) :
     FirestoreRecyclerAdapter<ReceivedMessage, UserViewHolder>(options) {
 
-    val listener: OnItemClickListener = listener
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,7 +23,7 @@ class MessagesAdapter(
     ): UserViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.items_messages, parent, false)
-        return UserViewHolder(view, listener)
+        return UserViewHolder(view, listener, options)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int, model: ReceivedMessage) {
@@ -32,28 +32,31 @@ class MessagesAdapter(
     }
 }
 
-class UserViewHolder(itemView: View, listener: OnItemClickListener) :
+class UserViewHolder(
+    itemView: View,
+    val listener: OnItemClickListener,
+    private val options: FirestoreRecyclerOptions<ReceivedMessage>
+) :
     RecyclerView.ViewHolder(itemView),
     View.OnClickListener {
     var message: TextView = itemView.findViewById(R.id.message)
     var sender: TextView = itemView.findViewById(R.id.sender_name)
 
-    private var listener: OnItemClickListener
-
-
     init {
         itemView.setOnClickListener(this)
-        this.listener = listener
     }
 
     override fun onClick(v: View?) {
-        listener.onItemClick(position = adapterPosition)
+        listener.onItemClick(
+            documentSnapshot = options.snapshots.getSnapshot(adapterPosition),
+            position = adapterPosition
+        )
     }
 }
 
 
 interface OnItemClickListener {
-    fun onItemClick(position: Int)
+    fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
 }
 
 data class ReceivedMessage(

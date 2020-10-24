@@ -28,7 +28,7 @@ class LoginFragment : Fragment() {
     private val viewModel by viewModels<LoginViewModel>()
     private lateinit var navController: NavController
     private lateinit var navHostFragment: NavHostFragment
-    private lateinit var firebaseAuth : FirebaseAuth
+    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +38,8 @@ class LoginFragment : Fragment() {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_login, container, false)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        navHostFragment = requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navHostFragment =
+            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
         binding.loginButton.setOnClickListener {
@@ -47,7 +48,7 @@ class LoginFragment : Fragment() {
             loginFlow(email, password)
         }
 
-        binding.loginGotoReg.setOnClickListener{view ->
+        binding.loginGotoReg.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
         return binding.root
@@ -59,7 +60,8 @@ class LoginFragment : Fragment() {
 
         viewModel.authenticationState.observe(viewLifecycleOwner, { authenticationState ->
             when (authenticationState) {
-                LoginViewModel.AuthenticationState.AUTHENTICATED -> view.findNavController().navigate(R.id.mainActivity)
+                LoginViewModel.AuthenticationState.AUTHENTICATED -> view.findNavController()
+                    .navigate(R.id.mainActivity)
                 LoginViewModel.AuthenticationState.UNAUTHENTICATED -> Toast.makeText(
                     requireContext(),
                     "not authentiacated",
@@ -71,18 +73,35 @@ class LoginFragment : Fragment() {
     }
 
     private fun loginFlow(email: String, password: String) {
-        if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
+        if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
+            showProgressbar()
             firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener{task ->
-                    if(task.isSuccessful){
-                        view?.findNavController()?.navigate(R.id.action_loginFragment_to_mainActivity)
-                    }else{
-                        Toast.makeText(requireContext(),"Error ${task.exception?.message}",Toast.LENGTH_LONG).show()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        view?.findNavController()
+                            ?.navigate(R.id.action_loginFragment_to_mainActivity)
+                    } else {
+                        hideProgressbar()
+                        Toast.makeText(
+                            requireContext(),
+                            "Error ${task.exception?.message}",
+                            Toast.LENGTH_LONG
+                        ).show()
                     }
                 }
-        }else{
-            Snackbar.make(requireView(),"Please fill all the fields",Snackbar.LENGTH_LONG).show()
+        } else {
+            Snackbar.make(requireView(), "Please fill all the fields", Snackbar.LENGTH_LONG).show()
         }
+    }
+
+    private fun hideProgressbar() {
+        binding.loginProgressbar.visibility = View.INVISIBLE
+        binding.loginButton.visibility = View.VISIBLE
+    }
+
+    private fun showProgressbar() {
+        binding.loginProgressbar.visibility = View.VISIBLE
+        binding.loginButton.visibility = View.INVISIBLE
     }
 
 }

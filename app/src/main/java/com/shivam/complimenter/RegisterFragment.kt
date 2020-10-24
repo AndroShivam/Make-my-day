@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.complimenter.databinding.FragmentRegisterBinding
 
 
@@ -20,6 +21,7 @@ class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -30,6 +32,8 @@ class RegisterFragment : Fragment() {
             DataBindingUtil.inflate(layoutInflater, R.layout.fragment_register, container, false)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        firebaseFirestore = FirebaseFirestore.getInstance()
+
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -38,7 +42,6 @@ class RegisterFragment : Fragment() {
             val email = binding.registerEmail.text.toString()
             val password = binding.registerPassword.text.toString()
             val confirmPassword = binding.registerConfirmPassword.text.toString()
-
             register(email, password, confirmPassword)
         }
 
@@ -55,11 +58,22 @@ class RegisterFragment : Fragment() {
             )
         ) {
             if (password == confirmPassword) {
+                showProgressBar()
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            view?.findNavController()?.navigate(R.id.action_registerFragment_to_mainActivity)
+
+                            // set field to current user id
+                            val currentUserID = firebaseAuth.currentUser?.uid.toString()
+                            val field = hashMapOf("user_id" to currentUserID)
+
+                            firebaseFirestore.collection(HomeFragment.USERS).document(currentUserID)
+                                .set(field)
+
+                            view?.findNavController()
+                                ?.navigate(R.id.action_registerFragment_to_mainActivity)
                         } else {
+                            hideProgressBar()
                             Snackbar.make(
                                 requireView(),
                                 "Something went wrong! :(",
@@ -67,11 +81,24 @@ class RegisterFragment : Fragment() {
                             ).show()
                         }
                     }
-            }else{
-                Toast.makeText(requireContext(), "Passwords doesn't match", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Passwords doesn't match", Toast.LENGTH_SHORT)
+                    .show()
             }
-        }else{
+        } else {
             Toast.makeText(requireContext(), "fields can't be empty", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun showProgressBar() {
+        binding.registerProgressbar.visibility = View.VISIBLE
+        binding.registerButton.visibility = View.INVISIBLE
+    }
+
+    private fun hideProgressBar() {
+        binding.registerProgressbar.visibility = View.INVISIBLE
+        binding.registerButton.visibility = View.VISIBLE
+    }
+
+
 }
