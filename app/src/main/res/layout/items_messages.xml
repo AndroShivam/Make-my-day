@@ -17,6 +17,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/sender_name"
             android:layout_width="wrap_content"
+            android:textStyle="bold"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/message"
             android:layout_margin="8dp"

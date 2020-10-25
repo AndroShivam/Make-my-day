@@ -1,16 +1,18 @@
 package com.shivam.complimenter
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.complimenter.databinding.FragmentHomeBinding
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.random.Random
 
 
@@ -44,6 +46,11 @@ class HomeFragment : Fragment(), View.OnClickListener {
             storeToFireStore(message)
         }
 
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        val name = sharedPreferences.getString("your_name", "Fren")
+
+
+        binding.homeWelcome.text = name
 
         binding.smiling.setOnClickListener(this)
         binding.blinking.setOnClickListener(this)
@@ -104,15 +111,17 @@ class HomeFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View?) {
-        when (view?.id) {
-            R.id.smiling -> binding.smiling.setImageResource(R.drawable.smiling_filled)
-            R.id.blinking -> binding.smiling.setImageResource(R.drawable.blinking_filled)
-            R.id.big_smile -> binding.smiling.setImageResource(R.drawable.big_smile_filled)
-            R.id.blank -> binding.smiling.setImageResource(R.drawable.blank_filled)
-            R.id.sad -> binding.smiling.setImageResource(R.drawable.sad_filled)
-            R.id.really_sad -> binding.smiling.setImageResource(R.drawable.really_sad_filled)
-            R.id.crying -> binding.smiling.setImageResource(R.drawable.crying_filled_new)
-            R.id.angry -> binding.smiling.setImageResource(R.drawable.angry_filled)
+
+        when (v?.id) {
+            R.id.smiling -> binding.smiling.setImageResource(R.drawable.blinking_filled)
+            R.id.blinking -> binding.blinking.setImageResource(R.drawable.blinking_filled)
+            R.id.big_smile -> binding.bigSmile.setImageResource(R.drawable.big_smile_filled)
+            R.id.blank -> binding.blank.setImageResource(R.drawable.blank_filled)
+            R.id.sad -> binding.sad.setImageResource(R.drawable.sad_filled)
+            R.id.really_sad -> binding.reallySad.setImageResource(R.drawable.really_sad_filled)
+            R.id.crying -> binding.crying.setImageResource(R.drawable.crying_filled_new)
+            R.id.angry -> binding.angry.setImageResource(R.drawable.angry_filled)
+            else -> Toast.makeText(requireContext(), "idk", Toast.LENGTH_SHORT).show()
         }
     }
 

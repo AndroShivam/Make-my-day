@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     private fun setupNavigationBar() {
         val bottomNavigationView = binding.bottomNavigationBar
         val navGraphIds = listOf(
@@ -47,4 +48,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return currentNavController?.value?.navigateUp() ?: false
     }
+
 }
+
