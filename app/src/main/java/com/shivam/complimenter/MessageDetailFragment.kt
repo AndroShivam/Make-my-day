@@ -9,8 +9,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.shivam.complimenter.HomeFragment.Companion.REPLIED
-import com.shivam.complimenter.HomeFragment.Companion.USERS
+import com.shivam.complimenter.NewMessageFragment.Companion.POSTS
+import com.shivam.complimenter.NewMessageFragment.Companion.REPLIED
+import com.shivam.complimenter.NewMessageFragment.Companion.USERS
 import com.shivam.complimenter.databinding.FragmentMessageDetailBinding
 
 class MessageDetailFragment : Fragment() {
@@ -36,24 +37,28 @@ class MessageDetailFragment : Fragment() {
         val sender: String? = args?.sender
 
 
-        binding.messageDetailText.text = args?.message
+        binding.messageText.text = args?.message
 
         binding.messageDetailButton.setOnClickListener {
-            val replyText = binding.messageDetailEditTxt.text.toString()
-            reply(replyText, sender)
+            val reply = binding.messageDetailEditTxt.text.toString()
+            reply(message, reply, sender)
         }
 
         return binding.root
     }
 
-    private fun reply(replyText: String, senderID: String?) {
+    private fun reply(messageText: String?, replyText: String, senderID: String?) {
 
-        val map = hashMapOf("replied_text" to replyText)
+        val map = hashMapOf(
+            "reply_text" to replyText,
+            "message_text" to messageText
+        )
 
         firebaseFirestore.collection(USERS).document(senderID!!)
             .collection(REPLIED).document().set(map)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    firebaseFirestore.collection(POSTS).document().set(map)
                     Toast.makeText(requireContext(), "Replied!", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(

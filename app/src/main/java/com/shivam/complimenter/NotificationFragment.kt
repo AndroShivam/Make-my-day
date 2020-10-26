@@ -11,6 +11,8 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.shivam.complimenter.NewMessageFragment.Companion.REPLIED
+import com.shivam.complimenter.NewMessageFragment.Companion.USERS
 import com.shivam.complimenter.databinding.FragmentNotificationBinding
 
 
@@ -33,8 +35,8 @@ class NotificationFragment : Fragment() {
         val currentUserID: String = firebaseAuth.currentUser?.uid.toString()
 
         val query: Query =
-            firebaseFirestore.collection(HomeFragment.USERS).document(currentUserID)
-                .collection(HomeFragment.REPLIED)
+            firebaseFirestore.collection(USERS).document(currentUserID)
+                .collection(REPLIED)
 
         val firestoreRecyclerOptions: FirestoreRecyclerOptions<RepliedMessage> =
             FirestoreRecyclerOptions.Builder<RepliedMessage>()

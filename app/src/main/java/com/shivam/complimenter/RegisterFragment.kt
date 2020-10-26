@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.shivam.complimenter.NewMessageFragment.Companion.USERS
 import com.shivam.complimenter.databinding.FragmentRegisterBinding
 
 
@@ -67,7 +68,7 @@ class RegisterFragment : Fragment() {
                             val currentUserID = firebaseAuth.currentUser?.uid.toString()
                             val field = hashMapOf("user_id" to currentUserID)
 
-                            firebaseFirestore.collection(HomeFragment.USERS).document(currentUserID)
+                            firebaseFirestore.collection(USERS).document(currentUserID)
                                 .set(field)
 
                             view?.findNavController()

@@ -34,4 +34,6 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="hey">Hey,</string>
+    <string name="new_message">New Message</string>
+    <string name="reply">Reply</string>
 </resources>

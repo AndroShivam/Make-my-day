@@ -1,204 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".HomeFragment">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/temp_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/items_home" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/home_hi"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/home_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/hey"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/home_welcome"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/home_welcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/app_name"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toEndOf="@id/home_hi"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/home_quote"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-            android:lineSpacingExtra="5dp"
-            android:text="@string/lorem_short"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_welcome" />
-
-        <ImageView
-            android:id="@+id/smiling"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/smiling"
-            app:layout_constraintBottom_toTopOf="@id/sad"
-            app:layout_constraintEnd_toStartOf="@+id/blinking"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_quote"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/blinking"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/blinking"
-            app:layout_constraintBottom_toTopOf="@id/really_sad"
-            app:layout_constraintEnd_toStartOf="@+id/big_smile"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/smiling"
-            app:layout_constraintTop_toBottomOf="@id/home_quote"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/big_smile"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/big_smile"
-            app:layout_constraintBottom_toTopOf="@id/crying"
-            app:layout_constraintEnd_toStartOf="@+id/blank"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/blinking"
-            app:layout_constraintTop_toBottomOf="@id/home_quote"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/blank"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/blank"
-            app:layout_constraintBottom_toTopOf="@id/angry"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/big_smile"
-            app:layout_constraintTop_toBottomOf="@id/home_quote"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-
-        <ImageView
-            android:id="@+id/sad"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/sad"
-            app:layout_constraintBottom_toTopOf="@id/home_message_layout"
-            app:layout_constraintEnd_toStartOf="@+id/really_sad"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/smiling"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/really_sad"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/really_sad"
-            app:layout_constraintBottom_toTopOf="@id/home_message_layout"
-            app:layout_constraintEnd_toStartOf="@+id/crying"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/sad"
-            app:layout_constraintTop_toBottomOf="@id/blinking"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/crying"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/crying"
-            app:layout_constraintBottom_toTopOf="@id/home_message_layout"
-            app:layout_constraintEnd_toStartOf="@+id/angry"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/really_sad"
-            app:layout_constraintTop_toBottomOf="@id/big_smile"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/angry"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/angry"
-            app:layout_constraintBottom_toTopOf="@id/home_message_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/crying"
-            app:layout_constraintTop_toBottomOf="@id/blank"
-            app:layout_constraintVertical_chainStyle="packed"
-            tools:ignore="ContentDescription" />
-
-        <View
-            android:id="@+id/home_view"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toTopOf="@id/home_message_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/really_sad" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/home_message_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            app:layout_constraintBottom_toTopOf="@id/make_my_day"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_view"
-            app:layout_constraintVertical_chainStyle="packed">
+            android:contentDescription="@string/new_message"
+            android:src="@drawable/ic_baseline_add_24" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/home_message"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:gravity="top|start"
-                android:hint="how you are feeling ?"
-                android:inputType="textMultiLine"
-                android:maxLines="15" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/make_my_day"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="Make my day"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/home_message_layout" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

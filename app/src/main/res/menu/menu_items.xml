@@ -7,12 +7,12 @@
 
     <item
         android:id="@+id/nav_messages"
-        android:icon="@drawable/ic_baseline_face_24"
+        android:icon="@drawable/ic_baseline_message_24"
         android:title="@string/messages" />
 
     <item
         android:id="@+id/nav_notifications"
-        android:icon="@drawable/ic_baseline_notifications_24"
+        android:icon="@drawable/ic_baseline_face_24"
         android:title="@string/notifications" />
 
     <item

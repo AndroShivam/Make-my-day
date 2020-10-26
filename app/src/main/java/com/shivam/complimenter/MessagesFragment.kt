@@ -6,23 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QueryDocumentSnapshot
-import com.shivam.complimenter.HomeFragment.Companion.RECEIVED
-import com.shivam.complimenter.HomeFragment.Companion.USERS
+import com.shivam.complimenter.NewMessageFragment.Companion.RECEIVED
+import com.shivam.complimenter.NewMessageFragment.Companion.USERS
 import com.shivam.complimenter.databinding.FragmentMessagesBinding
-import java.io.Serializable
 
 
 class MessagesFragment : Fragment(), OnItemClickListener {
@@ -79,7 +73,6 @@ class MessagesFragment : Fragment(), OnItemClickListener {
             message = message,
             sender = sender
         )
-
         view?.findNavController()?.navigate(action)
     }
 

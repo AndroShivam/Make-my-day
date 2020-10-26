@@ -71,4 +71,7 @@ dependencies {
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:6.3.0'
 
+    // Circular image view
+    implementation 'com.mikhaellopez:circularimageview:4.2.0'
+
 }
