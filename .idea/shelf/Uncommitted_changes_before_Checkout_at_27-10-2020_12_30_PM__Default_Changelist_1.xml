@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_27-10-2020_12_30_PM_[Default_Changelist]1" date="1603782054472" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_27-10-2020_12_30_PM_[Default_Changelist]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 27-10-2020 12:30 PM [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-v24/big_smile.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-v24/huge_smile.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_27-10-2020_12_30_PM_[Default_Changelist]1/huge_smile.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="app/src/main/res/drawable-v24/big_smile_filled.png" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable-v24/huge_smile_filled.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_27-10-2020_12_30_PM_[Default_Changelist]1/huge_smile_filled.png" />
+  </binary>
+</changelist>

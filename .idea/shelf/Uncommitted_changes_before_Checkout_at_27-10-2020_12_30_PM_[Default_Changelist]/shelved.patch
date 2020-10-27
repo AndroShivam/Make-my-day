@@ -1,0 +1,178 @@
+Index: app/src/main/res/layout/fragment_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n\r\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <androidx.coordinatorlayout.widget.CoordinatorLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        tools:context=\".HomeFragment\">\r\n\r\n        <androidx.recyclerview.widget.RecyclerView\r\n            android:id=\"@+id/temp_rv\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:clipToPadding=\"false\"\r\n            app:layoutManager=\"androidx.recyclerview.widget.LinearLayoutManager\"\r\n            tools:listitem=\"@layout/items_home\" />\r\n\r\n        <com.google.android.material.floatingactionbutton.FloatingActionButton\r\n            android:id=\"@+id/home_fab\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_gravity=\"bottom|end\"\r\n            android:layout_margin=\"16dp\"\r\n            android:contentDescription=\"@string/new_message\"\r\n            android:src=\"@drawable/ic_baseline_add_24\" />\r\n\r\n    </androidx.coordinatorlayout.widget.CoordinatorLayout>\r\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_home.xml	(revision 5d08c229ebff034bf5639dde0e7e7371deac9466)
++++ app/src/main/res/layout/fragment_home.xml	(date 1603778717596)
+@@ -22,6 +22,7 @@
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="bottom|end"
++            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+             android:layout_margin="16dp"
+             android:contentDescription="@string/new_message"
+             android:src="@drawable/ic_baseline_add_24" />
+Index: app/src/main/java/com/shivam/complimenter/MessageDetailFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shivam.complimenter\r\n\r\nimport android.os.Bundle\r\nimport androidx.fragment.app.Fragment\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.Toast\r\nimport androidx.databinding.DataBindingUtil\r\nimport com.google.firebase.auth.FirebaseAuth\r\nimport com.google.firebase.firestore.FirebaseFirestore\r\nimport com.shivam.complimenter.NewMessageFragment.Companion.POSTS\r\nimport com.shivam.complimenter.NewMessageFragment.Companion.REPLIED\r\nimport com.shivam.complimenter.NewMessageFragment.Companion.USERS\r\nimport com.shivam.complimenter.databinding.FragmentMessageDetailBinding\r\n\r\nclass MessageDetailFragment : Fragment() {\r\n\r\n    private lateinit var binding: FragmentMessageDetailBinding\r\n    private lateinit var firebaseAuth: FirebaseAuth\r\n    private lateinit var firebaseFirestore: FirebaseFirestore\r\n\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View? {\r\n        binding =\r\n            DataBindingUtil.inflate(inflater, R.layout.fragment_message_detail, container, false)\r\n\r\n\r\n        firebaseAuth = FirebaseAuth.getInstance()\r\n        firebaseFirestore = FirebaseFirestore.getInstance()\r\n\r\n        val args = arguments?.let { MessageDetailFragmentArgs.fromBundle(it) }\r\n        val message: String? = args?.message\r\n        val sender: String? = args?.sender\r\n\r\n\r\n        binding.messageText.text = args?.message\r\n\r\n        binding.messageDetailButton.setOnClickListener {\r\n            val reply = binding.messageDetailEditTxt.text.toString()\r\n            reply(message, reply, sender)\r\n        }\r\n\r\n        return binding.root\r\n    }\r\n\r\n    private fun reply(messageText: String?, replyText: String, senderID: String?) {\r\n\r\n        val map = hashMapOf(\r\n            \"reply_text\" to replyText,\r\n            \"message_text\" to messageText\r\n        )\r\n\r\n        firebaseFirestore.collection(USERS).document(senderID!!)\r\n            .collection(REPLIED).document().set(map)\r\n            .addOnCompleteListener { task ->\r\n                if (task.isSuccessful) {\r\n                    firebaseFirestore.collection(POSTS).document().set(map)\r\n                    Toast.makeText(requireContext(), \"Replied!\", Toast.LENGTH_SHORT).show()\r\n                } else {\r\n                    Toast.makeText(\r\n                        requireContext(),\r\n                        \"${task.exception?.message}\",\r\n                        Toast.LENGTH_SHORT\r\n                    ).show()\r\n                }\r\n            }.addOnFailureListener {\r\n                Toast.makeText(\r\n                    requireContext(),\r\n                    \"Error : ${it.message.toString()}\",\r\n                    Toast.LENGTH_SHORT\r\n                ).show()\r\n            }\r\n\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/shivam/complimenter/MessageDetailFragment.kt	(revision 5d08c229ebff034bf5639dde0e7e7371deac9466)
++++ app/src/main/java/com/shivam/complimenter/MessageDetailFragment.kt	(date 1603773469088)
+@@ -1,25 +1,29 @@
+ package com.shivam.complimenter
+ 
+ import android.os.Bundle
++import android.text.TextUtils
+ import androidx.fragment.app.Fragment
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
+ import android.widget.Toast
+ import androidx.databinding.DataBindingUtil
++import androidx.fragment.app.viewModels
+ import com.google.firebase.auth.FirebaseAuth
+ import com.google.firebase.firestore.FirebaseFirestore
+ import com.shivam.complimenter.NewMessageFragment.Companion.POSTS
+ import com.shivam.complimenter.NewMessageFragment.Companion.REPLIED
+ import com.shivam.complimenter.NewMessageFragment.Companion.USERS
+ import com.shivam.complimenter.databinding.FragmentMessageDetailBinding
++import kotlin.properties.Delegates
+ 
+ class MessageDetailFragment : Fragment() {
+ 
++    private val viewModel by viewModels<MessageDetailViewModel>()
+     private lateinit var binding: FragmentMessageDetailBinding
+     private lateinit var firebaseAuth: FirebaseAuth
+     private lateinit var firebaseFirestore: FirebaseFirestore
+-
++    private var buttonPreviouslyClicked by Delegates.notNull<Boolean>()
+ 
+     override fun onCreateView(
+         inflater: LayoutInflater, container: ViewGroup?,
+@@ -41,7 +45,10 @@
+ 
+         binding.messageDetailButton.setOnClickListener {
+             val reply = binding.messageDetailEditTxt.text.toString()
+-            reply(message, reply, sender)
++            if (!TextUtils.isEmpty(reply))
++                reply(message, reply, sender)
++            else
++                binding.messageDetailEditLayout.error = "can't be empty"
+         }
+ 
+         return binding.root
+@@ -59,6 +66,17 @@
+             .addOnCompleteListener { task ->
+                 if (task.isSuccessful) {
+                     firebaseFirestore.collection(POSTS).document().set(map)
++
++                    viewModel.isClicked.observe(viewLifecycleOwner, { isClicked ->
++                        buttonPreviouslyClicked = isClicked
++                    })
++
++
++                    binding.replyTextCard.visibility = View.VISIBLE
++                    binding.replyText.text = replyText
++                    binding.messageDetailEditLayout.visibility = View.INVISIBLE
++                    binding.messageDetailButton.visibility = View.INVISIBLE
++
+                     Toast.makeText(requireContext(), "Replied!", Toast.LENGTH_SHORT).show()
+                 } else {
+                     Toast.makeText(
+Index: app/src/main/java/com/shivam/complimenter/HomeFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.shivam.complimenter\r\n\r\nimport android.os.Bundle\r\nimport androidx.fragment.app.Fragment\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport androidx.databinding.DataBindingUtil\r\nimport androidx.navigation.findNavController\r\nimport com.firebase.ui.firestore.FirestoreRecyclerAdapter\r\nimport com.firebase.ui.firestore.FirestoreRecyclerOptions\r\nimport com.google.firebase.firestore.FirebaseFirestore\r\nimport com.shivam.complimenter.databinding.FragmentHomeBinding\r\n\r\n\r\nclass HomeFragment : Fragment() {\r\n\r\n    private lateinit var binding: FragmentHomeBinding\r\n    private lateinit var adapter: FirestoreRecyclerAdapter<Post, PostViewHolder>\r\n\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View? {\r\n        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)\r\n\r\n        binding.homeFab.setOnClickListener {\r\n            view?.findNavController()?.navigate(R.id.action_nav_home_to_newMessageFragment)\r\n        }\r\n\r\n        val query =\r\n            FirebaseFirestore.getInstance().collection(\"Posts\")\r\n\r\n        val firestoreRecyclerOptions: FirestoreRecyclerOptions<Post> =\r\n            FirestoreRecyclerOptions.Builder<Post>()\r\n                .setQuery(query, Post::class.java)\r\n                .build()\r\n\r\n        adapter = HomeAdapter(options = firestoreRecyclerOptions)\r\n\r\n        binding.tempRv.setHasFixedSize(true)\r\n        binding.tempRv.adapter = adapter\r\n\r\n        return binding.root\r\n    }\r\n\r\n    override fun onStart() {\r\n        super.onStart()\r\n        adapter.startListening()\r\n    }\r\n\r\n    override fun onStop() {\r\n        super.onStop()\r\n        adapter.stopListening()\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/shivam/complimenter/HomeFragment.kt	(revision 5d08c229ebff034bf5639dde0e7e7371deac9466)
++++ app/src/main/java/com/shivam/complimenter/HomeFragment.kt	(date 1603778717580)
+@@ -5,15 +5,17 @@
+ import android.view.LayoutInflater
+ import android.view.View
+ import android.view.ViewGroup
++import android.widget.Toast
+ import androidx.databinding.DataBindingUtil
+ import androidx.navigation.findNavController
+ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+ import com.firebase.ui.firestore.FirestoreRecyclerOptions
++import com.google.firebase.firestore.DocumentSnapshot
+ import com.google.firebase.firestore.FirebaseFirestore
+ import com.shivam.complimenter.databinding.FragmentHomeBinding
+ 
+ 
+-class HomeFragment : Fragment() {
++class HomeFragment : Fragment(), OnItemClickListener {
+ 
+     private lateinit var binding: FragmentHomeBinding
+     private lateinit var adapter: FirestoreRecyclerAdapter<Post, PostViewHolder>
+@@ -37,7 +39,7 @@
+                 .setQuery(query, Post::class.java)
+                 .build()
+ 
+-        adapter = HomeAdapter(options = firestoreRecyclerOptions)
++        adapter = HomeAdapter(options = firestoreRecyclerOptions, listener = this)
+ 
+         binding.tempRv.setHasFixedSize(true)
+         binding.tempRv.adapter = adapter
+@@ -55,4 +57,8 @@
+         adapter.stopListening()
+     }
+ 
++    override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
++        Toast.makeText(requireContext(), "Postition : $position", Toast.LENGTH_SHORT).show()
++    }
++
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/fragment_message_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n\r\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        tools:context=\".MessageDetailFragment\">\r\n\r\n        <com.google.android.material.card.MaterialCardView\r\n            android:id=\"@+id/message_text_card\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"16dp\"\r\n            android:elevation=\"16dp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n            <com.google.android.material.textview.MaterialTextView\r\n                android:id=\"@+id/message_text\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_margin=\"16dp\"\r\n                android:lineSpacingExtra=\"8dp\"\r\n                android:text=\"@string/lorem\"\r\n                android:textSize=\"16sp\" />\r\n        </com.google.android.material.card.MaterialCardView>\r\n\r\n\r\n        <com.google.android.material.textfield.TextInputLayout\r\n            android:id=\"@+id/message_detail_edit_layout\"\r\n            style=\"@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"16dp\"\r\n            app:layout_constraintBottom_toTopOf=\"@id/message_detail_button\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/message_text_card\"\r\n            app:layout_constraintVertical_bias=\"1.0\"\r\n            app:layout_constraintVertical_chainStyle=\"packed\">\r\n\r\n            <com.google.android.material.textfield.TextInputEditText\r\n                android:id=\"@+id/message_detail_edit_txt\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"120dp\"\r\n                android:gravity=\"top|start\"\r\n                android:hint=\"@string/reply\"\r\n                android:inputType=\"textMultiLine\" />\r\n        </com.google.android.material.textfield.TextInputLayout>\r\n\r\n        <com.google.android.material.button.MaterialButton\r\n            android:id=\"@+id/message_detail_button\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_margin=\"16dp\"\r\n            android:text=\"@string/reply\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/message_detail_edit_layout\"\r\n            app:layout_constraintVertical_chainStyle=\"packed\" />\r\n\r\n\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</layout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/fragment_message_detail.xml	(revision 5d08c229ebff034bf5639dde0e7e7371deac9466)
++++ app/src/main/res/layout/fragment_message_detail.xml	(date 1603771970360)
+@@ -25,11 +25,32 @@
+                 android:layout_height="wrap_content"
+                 android:layout_margin="16dp"
+                 android:lineSpacingExtra="8dp"
+-                android:text="@string/lorem"
++                android:text="@string/lorem_short"
++                android:textSize="16sp" />
++        </com.google.android.material.card.MaterialCardView>
++
++
++        <com.google.android.material.card.MaterialCardView
++            android:id="@+id/reply_text_card"
++            android:layout_width="0dp"
++            android:layout_height="wrap_content"
++            android:layout_margin="16dp"
++            android:elevation="16dp"
++            android:visibility="invisible"
++            app:layout_constraintEnd_toEndOf="parent"
++            app:layout_constraintStart_toStartOf="parent"
++            app:layout_constraintTop_toBottomOf="@id/message_text_card">
++
++            <com.google.android.material.textview.MaterialTextView
++                android:id="@+id/reply_text"
++                android:layout_width="match_parent"
++                android:layout_height="wrap_content"
++                android:layout_margin="16dp"
++                android:lineSpacingExtra="8dp"
++                android:text="@string/lorem_short"
+                 android:textSize="16sp" />
+         </com.google.android.material.card.MaterialCardView>
+ 
+-
+         <com.google.android.material.textfield.TextInputLayout
+             android:id="@+id/message_detail_edit_layout"
+             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
