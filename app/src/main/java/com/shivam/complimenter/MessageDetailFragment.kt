@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.complimenter.NewMessageFragment.Companion.POSTS
@@ -28,30 +29,39 @@ class MessageDetailFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_message_detail, container, false)
 
-
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseFirestore = FirebaseFirestore.getInstance()
 
         val args = arguments?.let { MessageDetailFragmentArgs.fromBundle(it) }
-        val message: String? = args?.message
-        val sender: String? = args?.sender
+        val senderUserName: String? = args?.senderUserName
+        val senderUserID: String? = args?.senderUserID
+        val senderMessage: String? = args?.senderMessage
+        val senderEmoji: String? = args?.senderEmoji
 
 
-        binding.messageText.text = args?.message
+        binding.messageText.text = args?.senderMessage
 
         binding.messageDetailButton.setOnClickListener {
             val reply = binding.messageDetailEditTxt.text.toString()
-            reply(message, reply, sender)
+            reply(senderUserName!!, senderUserID, senderMessage!!, senderEmoji!!, reply)
         }
 
         return binding.root
     }
 
-    private fun reply(messageText: String?, replyText: String, senderID: String?) {
+    private fun reply(
+        userName: String,
+        senderID: String?,
+        messageText: String?,
+        emoji: String?,
+        replyText: String,
+    ) {
 
         val map = hashMapOf(
-            "reply_text" to replyText,
-            "message_text" to messageText
+            "username" to userName,
+            "message" to messageText,
+            "reply" to replyText,
+            "emoji" to emoji
         )
 
         firebaseFirestore.collection(USERS).document(senderID!!)

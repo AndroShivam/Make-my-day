@@ -5,15 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.complimenter.databinding.FragmentHomeBinding
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: FirestoreRecyclerAdapter<Post, PostViewHolder>
@@ -37,7 +39,7 @@ class HomeFragment : Fragment() {
                 .setQuery(query, Post::class.java)
                 .build()
 
-        adapter = HomeAdapter(options = firestoreRecyclerOptions)
+        adapter = HomeAdapter(options = firestoreRecyclerOptions, listener = this)
 
         binding.tempRv.setHasFixedSize(true)
         binding.tempRv.adapter = adapter
@@ -55,4 +57,12 @@ class HomeFragment : Fragment() {
         adapter.stopListening()
     }
 
+    override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
+        view?.findNavController()?.navigate(R.id.action_nav_home_to_homeDetailFragment)
+    }
+
+}
+
+interface OnItemClickListener {
+    fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
 }

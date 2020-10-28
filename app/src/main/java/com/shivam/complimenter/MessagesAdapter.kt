@@ -7,7 +7,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.DocumentSnapshot
 
 
 class MessagesAdapter(
@@ -27,8 +26,8 @@ class MessagesAdapter(
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int, model: ReceivedMessage) {
-        holder.message.text = model.message
-        holder.sender.text = model.sender
+        holder.senderUserName.text = model.senderUserName
+        holder.senderMessage.text = model.senderMessage
     }
 }
 
@@ -39,8 +38,10 @@ class UserViewHolder(
 ) :
     RecyclerView.ViewHolder(itemView),
     View.OnClickListener {
-    var message: TextView = itemView.findViewById(R.id.message)
-    var sender: TextView = itemView.findViewById(R.id.sender_name)
+
+    var senderUserName: TextView = itemView.findViewById(R.id.sender_name)
+    var senderMessage: TextView = itemView.findViewById(R.id.sender_message)
+
 
     init {
         itemView.setOnClickListener(this)
@@ -54,12 +55,8 @@ class UserViewHolder(
     }
 }
 
-
-interface OnItemClickListener {
-    fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int)
-}
-
 data class ReceivedMessage(
-    var message: String = "message",
-    var sender: String = "sender"
+    var senderUserName: String = "sender_username",
+    var senderUserID: String = "sender_user_id",
+    var senderMessage: String = "message"
 )

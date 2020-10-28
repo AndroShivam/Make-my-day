@@ -22,11 +22,19 @@
             android:name="position"
             app:argType="integer" />
         <argument
-            android:name="message"
+            android:name="senderMessage"
             app:argType="string"
             app:nullable="true" />
         <argument
-            android:name="sender"
+            android:name="senderUserName"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="senderUserID"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="senderEmoji"
             app:argType="string"
             app:nullable="true" />
     </fragment>

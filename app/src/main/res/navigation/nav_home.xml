@@ -14,9 +14,24 @@
         <action
             android:id="@+id/action_nav_home_to_newMessageFragment"
             app:destination="@id/newMessageFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_homeDetailFragment"
+            app:destination="@id/homeDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/newMessageFragment"
         android:name="com.shivam.complimenter.NewMessageFragment"
-        android:label="NewMessageFragment" />
+        android:label="NewMessageFragment">
+        <action
+            android:id="@+id/action_newMessageFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeDetailFragment"
+        android:name="com.shivam.complimenter.HomeDetailFragment"
+        android:label="HomeDetailFragment">
+        <action
+            android:id="@+id/action_homeDetailFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
 </navigation>

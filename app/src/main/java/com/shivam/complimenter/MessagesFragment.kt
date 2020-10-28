@@ -65,13 +65,18 @@ class MessagesFragment : Fragment(), OnItemClickListener {
 
     override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
 
-        val message: String? = documentSnapshot.getString("message")
-        val sender: String? = documentSnapshot.getString("sender")
+        val senderUserName: String? = documentSnapshot.getString("senderUserName")
+        val senderMessage: String? = documentSnapshot.getString("senderMessage")
+        val senderUserID: String? = documentSnapshot.getString("senderUserID")
+        val senderEmoji: String? = documentSnapshot.getString("senderEmoji")
+
 
         val action = MessagesFragmentDirections.actionNavMessagesToMessageDetailFragment(
             position = position,
-            message = message,
-            sender = sender
+            senderUserName = senderUserName,
+            senderUserID = senderUserID,
+            senderMessage = senderMessage,
+            senderEmoji = senderEmoji
         )
         view?.findNavController()?.navigate(action)
     }

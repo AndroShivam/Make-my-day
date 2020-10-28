@@ -3,7 +3,7 @@
     <PreferenceCategory app:title="@string/messages_header">
 
         <EditTextPreference
-            app:key="your_name"
+            app:key="userName"
             app:title="Your Name"
             app:useSimpleSummaryProvider="true" />
 

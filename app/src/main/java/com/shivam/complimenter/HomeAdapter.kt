@@ -8,28 +8,47 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.textview.MaterialTextView
 
-class HomeAdapter(val options: FirestoreRecyclerOptions<Post>) :
+class HomeAdapter(
+    val options: FirestoreRecyclerOptions<Post>,
+    val listener: OnItemClickListener
+) :
     FirestoreRecyclerAdapter<Post, PostViewHolder>(options) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.items_home, parent, false)
-        return PostViewHolder(view)
+        return PostViewHolder(view, options, listener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int, model: Post) {
-        holder.user_message.text = model.message_text
-        holder.user_reply.text = model.reply_text
+        holder.userName.text = model.username
+        holder.userMessage.text = model.message
     }
-
-
 }
 
-class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val user_message: MaterialTextView = itemView.findViewById(R.id.user_message)
-    val user_reply: MaterialTextView = itemView.findViewById(R.id.user_reply)
+class PostViewHolder(
+    itemView: View,
+    private val options: FirestoreRecyclerOptions<Post>,
+    val listener: OnItemClickListener
+) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+
+    val userName: MaterialTextView = itemView.findViewById(R.id.home_username)
+    val userMessage: MaterialTextView = itemView.findViewById(R.id.home_user_message)
+
+    init {
+        itemView.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        listener.onItemClick(
+            documentSnapshot = options.snapshots.getSnapshot(adapterPosition),
+            position = adapterPosition
+        )
+    }
 }
 
 data class Post(
-    var message_text: String = "message",
-    var reply_text: String = "reply"
+    var username: String = "username",
+    var message: String = "message",
+    var reply: String = "reply",
+    var emoji: String = "emoji"
 )
 
