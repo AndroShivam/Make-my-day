@@ -10,5 +10,22 @@
         android:id="@+id/nav_notifications"
         android:name="com.shivam.complimenter.NotificationFragment"
         android:label="@string/notifications"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_notification">
+        <action
+            android:id="@+id/action_nav_notifications_to_notificationDetailFragment"
+            app:destination="@id/notificationDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationDetailFragment"
+        android:name="com.shivam.complimenter.NotificationDetailFragment"
+        android:label="NotificationDetailFragment">
+        <argument
+            android:name="message"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="reply"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

@@ -68,7 +68,10 @@ class MessagesFragment : Fragment(), OnItemClickListener {
         val senderUserName: String? = documentSnapshot.getString("senderUserName")
         val senderMessage: String? = documentSnapshot.getString("senderMessage")
         val senderUserID: String? = documentSnapshot.getString("senderUserID")
-        val senderEmoji: String? = documentSnapshot.getString("senderEmoji")
+        val senderEmojiInt: Int? = documentSnapshot.getLong("senderEmoji")?.toInt()
+
+
+        val senderEmoji = senderEmojiInt.toString()
 
 
         val action = MessagesFragmentDirections.actionNavMessagesToMessageDetailFragment(

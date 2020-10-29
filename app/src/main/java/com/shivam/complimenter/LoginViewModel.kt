@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : ViewModel(){
     enum class AuthenticationState {
-        AUTHENTICATED, UNAUTHENTICATED, INVALID_AUTH
+        AUTHENTICATED, UNAUTHENTICATED
     }
 
     val authenticationState = FirebaseUserLiveData().map { user ->

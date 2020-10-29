@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.shivam.complimenter.NewMessageFragment.Companion.REPLIED
@@ -16,7 +18,7 @@ import com.shivam.complimenter.NewMessageFragment.Companion.USERS
 import com.shivam.complimenter.databinding.FragmentNotificationBinding
 
 
-class NotificationFragment : Fragment() {
+class NotificationFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentNotificationBinding
     private lateinit var firebaseFirestore: FirebaseFirestore
@@ -43,7 +45,7 @@ class NotificationFragment : Fragment() {
                 .setQuery(query, RepliedMessage::class.java)
                 .build()
 
-        adapter = NotificationAdapter(options = firestoreRecyclerOptions)
+        adapter = NotificationAdapter(options = firestoreRecyclerOptions, listener = this)
 
         binding.notificationRv.setHasFixedSize(true)
         binding.notificationRv.adapter = adapter
@@ -59,5 +61,23 @@ class NotificationFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         adapter.stopListening()
+    }
+
+    override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
+//        val username: String = "username",
+//        val message: String = "message",
+//        val reply: String = "reply",
+//        val emoji: String = "emoji"
+
+        val message: String? = documentSnapshot.getString("message")
+        val reply: String? = documentSnapshot.getString("reply")
+
+        val action =
+            NotificationFragmentDirections.actionNavNotificationsToNotificationDetailFragment(
+                message = message,
+                reply = reply
+            )
+
+        view?.findNavController()?.navigate(action)
     }
 }

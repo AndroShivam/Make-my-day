@@ -10,10 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.shivam.complimenter.databinding.FragmentLoginBinding
@@ -26,8 +23,6 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel by viewModels<LoginViewModel>()
-    private lateinit var navController: NavController
-    private lateinit var navHostFragment: NavHostFragment
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
@@ -38,9 +33,6 @@ class LoginFragment : Fragment() {
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_login, container, false)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        navHostFragment =
-            requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
 
         binding.loginButton.setOnClickListener {
             val email = binding.loginEmail.text.toString()
@@ -57,17 +49,11 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         viewModel.authenticationState.observe(viewLifecycleOwner, { authenticationState ->
             when (authenticationState) {
                 LoginViewModel.AuthenticationState.AUTHENTICATED -> view.findNavController()
                     .navigate(R.id.mainActivity)
-                LoginViewModel.AuthenticationState.UNAUTHENTICATED -> Toast.makeText(
-                    requireContext(),
-                    "not authentiacated",
-                    Toast.LENGTH_SHORT
-                ).show()
-                else -> Log.e(TAG, "blah blah")
+                else -> Log.e(TAG, "User not Authenticated!")
             }
         })
     }

@@ -21,6 +21,7 @@ class HomeAdapter(
     override fun onBindViewHolder(holder: PostViewHolder, position: Int, model: Post) {
         holder.userName.text = model.username
         holder.userMessage.text = model.message
+        holder.emoji.text = getEmojiFromUnicode(model.emoji)
     }
 }
 
@@ -32,6 +33,7 @@ class PostViewHolder(
 
     val userName: MaterialTextView = itemView.findViewById(R.id.home_username)
     val userMessage: MaterialTextView = itemView.findViewById(R.id.home_user_message)
+    val emoji: MaterialTextView = itemView.findViewById(R.id.home_emoji)
 
     init {
         itemView.setOnClickListener(this)
@@ -43,6 +45,11 @@ class PostViewHolder(
             position = adapterPosition
         )
     }
+}
+
+private fun getEmojiFromUnicode(unicode: String): String {
+    val unicodeInt: Int = Integer.parseInt(unicode)
+    return String(Character.toChars(unicodeInt))
 }
 
 data class Post(

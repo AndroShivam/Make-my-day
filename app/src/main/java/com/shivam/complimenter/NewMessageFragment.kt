@@ -31,7 +31,7 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var currentUserID: String
     private lateinit var firebaseFirestore: FirebaseFirestore
-    private var selectedEmoji: String? = null
+    private var selectedEmoji: Int? = null
 
 
     override fun onCreateView(
@@ -51,31 +51,19 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
         binding.newMessageButton.setOnClickListener {
             val message = binding.newMessageEditText.text.toString()
 
-            if (!TextUtils.isEmpty(message) && !selectedEmoji.isNullOrEmpty())
+            if (!TextUtils.isEmpty(message)) // check emoji null here
                 storeToFireStore(message, userName!!, selectedEmoji!!)
-            else if (TextUtils.isEmpty(message)) {
+            else {
                 Toast.makeText(requireContext(), "message field can't be empty", Toast.LENGTH_SHORT)
                     .show()
-            } else if (selectedEmoji.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), "please select an emoji", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                Toast.makeText(
-                    requireContext(),
-                    "please select an emoji and enter message",
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
             }
-
         }
 
 
-
         binding.smiling.setOnClickListener(this)
-        binding.blinking.setOnClickListener(this)
+        binding.winking.setOnClickListener(this)
         binding.hugeSmile.setOnClickListener(this)
-        binding.blank.setOnClickListener(this)
+        binding.neutral.setOnClickListener(this)
         binding.sad.setOnClickListener(this)
         binding.reallySad.setOnClickListener(this)
         binding.crying.setOnClickListener(this)
@@ -85,7 +73,7 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
     }
 
 
-    private fun storeToFireStore(message: String, userName: String, emoji: String) {
+    private fun storeToFireStore(message: String, userName: String, emoji: Int) {
 
         val map = hashMapOf(
             "userName" to userName,
@@ -109,7 +97,7 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
             }
     }
 
-    private fun setReceive(userName: String, message: String, emoji: String) {
+    private fun setReceive(userName: String, message: String, emoji: Int) {
 
         val list: ArrayList<String> = ArrayList()
 
@@ -146,35 +134,35 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
         when (v?.id) {
             R.id.smiling -> {
                 selectImage(binding.smiling)
-                selectedEmoji = "smiling"
+                selectedEmoji = 0x1F642
             }
-            R.id.blinking -> {
-                selectImage(binding.blinking)
-                selectedEmoji = "blinking"
+            R.id.winking -> {
+                selectImage(binding.winking)
+                selectedEmoji = 0x1F609
             }
             R.id.huge_smile -> {
                 selectImage(binding.hugeSmile)
-                selectedEmoji = "huge_smile"
+                selectedEmoji = 0x1F604
             }
-            R.id.blank -> {
-                selectImage(binding.blank)
-                selectedEmoji = "blank"
+            R.id.neutral -> {
+                selectImage(binding.neutral)
+                selectedEmoji = 0x1F610
             }
             R.id.sad -> {
                 selectImage(binding.sad)
-                selectedEmoji = "sad"
+                selectedEmoji = 0x1F641
             }
             R.id.really_sad -> {
                 selectImage(binding.reallySad)
-                selectedEmoji = "really_sad"
+                selectedEmoji = 0x2639
             }
             R.id.crying -> {
                 selectImage(binding.crying)
-                selectedEmoji = "crying"
+                selectedEmoji = 0x1F622
             }
             R.id.angry -> {
                 selectImage(binding.angry)
-                selectedEmoji = "angry"
+                selectedEmoji = 0x1F620 // 	U+1F621
             }
             else -> Toast.makeText(requireContext(), "idk", Toast.LENGTH_SHORT).show()
         }
@@ -186,20 +174,20 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
         when (image.id) {
             R.id.smiling -> {
                 binding.smiling.setImageResource(R.drawable.smiling_filled)
-                binding.blinking.setImageResource(R.drawable.blinking)
+                binding.winking.setImageResource(R.drawable.winking)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile)
-                binding.blank.setImageResource(R.drawable.blank)
+                binding.neutral.setImageResource(R.drawable.neutral)
                 binding.sad.setImageResource(R.drawable.sad)
                 binding.reallySad.setImageResource(R.drawable.really_sad)
                 binding.crying.setImageResource(R.drawable.crying)
                 binding.angry.setImageResource(R.drawable.angry)
             }
 
-            R.id.blinking -> {
+            R.id.winking -> {
                 binding.smiling.setImageResource(R.drawable.smiling)
-                binding.blinking.setImageResource(R.drawable.blinking_filled)
+                binding.winking.setImageResource(R.drawable.winking_filled)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile)
-                binding.blank.setImageResource(R.drawable.blank)
+                binding.neutral.setImageResource(R.drawable.neutral)
                 binding.sad.setImageResource(R.drawable.sad)
                 binding.reallySad.setImageResource(R.drawable.really_sad)
                 binding.crying.setImageResource(R.drawable.crying)
@@ -208,20 +196,20 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
 
             R.id.huge_smile -> {
                 binding.smiling.setImageResource(R.drawable.smiling)
-                binding.blinking.setImageResource(R.drawable.blinking)
+                binding.winking.setImageResource(R.drawable.winking)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile_filled)
-                binding.blank.setImageResource(R.drawable.blank)
+                binding.neutral.setImageResource(R.drawable.neutral)
                 binding.sad.setImageResource(R.drawable.sad)
                 binding.reallySad.setImageResource(R.drawable.really_sad)
                 binding.crying.setImageResource(R.drawable.crying)
                 binding.angry.setImageResource(R.drawable.angry)
             }
 
-            R.id.blank -> {
+            R.id.neutral -> {
                 binding.smiling.setImageResource(R.drawable.smiling)
-                binding.blinking.setImageResource(R.drawable.blinking)
+                binding.winking.setImageResource(R.drawable.winking)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile)
-                binding.blank.setImageResource(R.drawable.blank_filled)
+                binding.neutral.setImageResource(R.drawable.blank_filled)
                 binding.sad.setImageResource(R.drawable.sad)
                 binding.reallySad.setImageResource(R.drawable.really_sad)
                 binding.crying.setImageResource(R.drawable.crying)
@@ -230,9 +218,9 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
 
             R.id.sad -> {
                 binding.smiling.setImageResource(R.drawable.smiling)
-                binding.blinking.setImageResource(R.drawable.blinking)
+                binding.winking.setImageResource(R.drawable.winking)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile)
-                binding.blank.setImageResource(R.drawable.blank)
+                binding.neutral.setImageResource(R.drawable.neutral)
                 binding.sad.setImageResource(R.drawable.sad_filled)
                 binding.reallySad.setImageResource(R.drawable.really_sad)
                 binding.crying.setImageResource(R.drawable.crying)
@@ -240,9 +228,9 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
             }
             R.id.really_sad -> {
                 binding.smiling.setImageResource(R.drawable.smiling)
-                binding.blinking.setImageResource(R.drawable.blinking)
+                binding.winking.setImageResource(R.drawable.winking)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile)
-                binding.blank.setImageResource(R.drawable.blank)
+                binding.neutral.setImageResource(R.drawable.neutral)
                 binding.sad.setImageResource(R.drawable.sad)
                 binding.reallySad.setImageResource(R.drawable.really_sad_filled)
                 binding.crying.setImageResource(R.drawable.crying)
@@ -251,9 +239,9 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
 
             R.id.crying -> {
                 binding.smiling.setImageResource(R.drawable.smiling)
-                binding.blinking.setImageResource(R.drawable.blinking)
+                binding.winking.setImageResource(R.drawable.winking)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile)
-                binding.blank.setImageResource(R.drawable.blank)
+                binding.neutral.setImageResource(R.drawable.neutral)
                 binding.sad.setImageResource(R.drawable.sad)
                 binding.reallySad.setImageResource(R.drawable.really_sad)
                 binding.crying.setImageResource(R.drawable.crying_filled_new)
@@ -262,9 +250,9 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
 
             R.id.angry -> {
                 binding.smiling.setImageResource(R.drawable.smiling)
-                binding.blinking.setImageResource(R.drawable.blinking)
+                binding.winking.setImageResource(R.drawable.winking)
                 binding.hugeSmile.setImageResource(R.drawable.huge_smile)
-                binding.blank.setImageResource(R.drawable.blank)
+                binding.neutral.setImageResource(R.drawable.neutral)
                 binding.sad.setImageResource(R.drawable.sad)
                 binding.reallySad.setImageResource(R.drawable.really_sad)
                 binding.crying.setImageResource(R.drawable.crying)

@@ -33,5 +33,13 @@
         <action
             android:id="@+id/action_homeDetailFragment_to_nav_home"
             app:destination="@id/nav_home" />
+        <argument
+            android:name="message"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="reply"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

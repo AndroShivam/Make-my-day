@@ -58,7 +58,16 @@ class HomeFragment : Fragment(), OnItemClickListener {
     }
 
     override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
-        view?.findNavController()?.navigate(R.id.action_nav_home_to_homeDetailFragment)
+
+        val message: String? = documentSnapshot.getString("message")
+        val reply: String? = documentSnapshot.getString("reply")
+
+        val action = HomeFragmentDirections.actionNavHomeToHomeDetailFragment(
+            message = message,
+            reply = reply
+        )
+
+        view?.findNavController()?.navigate(action)
     }
 
 }

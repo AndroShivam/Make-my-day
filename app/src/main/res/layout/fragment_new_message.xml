@@ -58,7 +58,7 @@
             android:layout_height="96dp"
             android:src="@drawable/smiling"
             app:layout_constraintBottom_toTopOf="@id/sad"
-            app:layout_constraintEnd_toStartOf="@+id/blinking"
+            app:layout_constraintEnd_toStartOf="@+id/winking"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_message_quote"
@@ -66,10 +66,10 @@
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/blinking"
+            android:id="@+id/winking"
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:src="@drawable/blinking"
+            android:src="@drawable/winking"
             app:layout_constraintBottom_toTopOf="@id/really_sad"
             app:layout_constraintEnd_toStartOf="@+id/huge_smile"
             app:layout_constraintHorizontal_bias="0.5"
@@ -84,18 +84,18 @@
             android:layout_height="96dp"
             android:src="@drawable/huge_smile"
             app:layout_constraintBottom_toTopOf="@id/crying"
-            app:layout_constraintEnd_toStartOf="@+id/blank"
+            app:layout_constraintEnd_toStartOf="@+id/neutral"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/blinking"
+            app:layout_constraintStart_toEndOf="@+id/winking"
             app:layout_constraintTop_toBottomOf="@id/new_message_quote"
             app:layout_constraintVertical_chainStyle="packed"
             tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/blank"
+            android:id="@+id/neutral"
             android:layout_width="96dp"
             android:layout_height="96dp"
-            android:src="@drawable/blank"
+            android:src="@drawable/neutral"
             app:layout_constraintBottom_toTopOf="@id/angry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -127,7 +127,7 @@
             app:layout_constraintEnd_toStartOf="@+id/crying"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/sad"
-            app:layout_constraintTop_toBottomOf="@id/blinking"
+            app:layout_constraintTop_toBottomOf="@id/winking"
             app:layout_constraintVertical_chainStyle="packed"
             tools:ignore="ContentDescription" />
 
@@ -153,7 +153,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/crying"
-            app:layout_constraintTop_toBottomOf="@id/blank"
+            app:layout_constraintTop_toBottomOf="@id/neutral"
             app:layout_constraintVertical_chainStyle="packed"
             tools:ignore="ContentDescription" />
 
