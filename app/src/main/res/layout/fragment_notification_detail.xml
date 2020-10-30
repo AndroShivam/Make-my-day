@@ -20,7 +20,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/notification_detail_message"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/colorBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"

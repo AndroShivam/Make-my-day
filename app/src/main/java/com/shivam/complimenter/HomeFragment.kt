@@ -12,6 +12,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.shivam.complimenter.databinding.FragmentHomeBinding
 
 
@@ -33,6 +34,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
         val query =
             FirebaseFirestore.getInstance().collection("Posts")
+
 
         val firestoreRecyclerOptions: FirestoreRecyclerOptions<Post> =
             FirestoreRecyclerOptions.Builder<Post>()

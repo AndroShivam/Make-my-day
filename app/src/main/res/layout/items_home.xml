@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:elevation="16dp">
+    android:elevation="16dp"
+    app:cardCornerRadius="16dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-        <ImageView
+        <com.mikhaellopez.circularimageview.CircularImageView
             android:id="@+id/home_image"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_margin="16dp"
-            android:src="@mipmap/ic_launcher"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/profile_picture"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/home_username"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
@@ -27,9 +27,10 @@
             android:id="@+id/home_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:text="Shivam Sharma"
-            android:textColor="#000000"
+            android:textColor="@color/colorBlack"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/home_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,25 +41,39 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="@string/emoji"
-            android:textColor="@color/black"
+            android:textColor="@color/colorBlack"
             android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintBottom_toBottomOf="@id/home_username"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@id/home_username"
             app:layout_constraintTop_toTopOf="@id/home_username" />
+
+        <TextView
+            android:id="@+id/home_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="2 days"
+            app:layout_constraintBottom_toBottomOf="@id/home_emoji"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@id/home_emoji"
+            app:layout_constraintTop_toTopOf="@id/home_emoji" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/home_user_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:lineSpacingExtra="4dp"
             android:maxLines="4"
             android:text="@string/lorem_short"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/home_image"
-            app:layout_constraintTop_toBottomOf="@id/home_username" />
+            app:layout_constraintTop_toBottomOf="@id/home_username"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

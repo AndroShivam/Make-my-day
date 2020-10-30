@@ -23,5 +23,6 @@
     <string name="hey">Hey,</string>
     <string name="new_message">New Message</string>
     <string name="reply">Reply</string>
-    <string name="emoji"></string>
+    <string name="emoji">&#128512;</string>
+    <string name="hi_how_are_you">Hi, How are you?</string>
 </resources>
