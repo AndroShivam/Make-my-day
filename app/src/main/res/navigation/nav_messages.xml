@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/nav_messages"
-        android:name="com.shivam.complimenter.MessagesFragment"
+        android:name="com.shivam.makemyday.MessagesFragment"
         android:label="@string/messages">
         <action
             android:id="@+id/action_nav_messages_to_messageDetailFragment"
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/messageDetailFragment"
-        android:name="com.shivam.complimenter.MessageDetailFragment"
+        android:name="com.shivam.makemyday.MessageDetailFragment"
         android:label="MessageDetailFragment">
         <argument
             android:name="position"

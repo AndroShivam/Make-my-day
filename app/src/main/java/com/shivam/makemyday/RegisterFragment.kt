@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -14,8 +14,8 @@ import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.shivam.complimenter.NewMessageFragment.Companion.USERS
-import com.shivam.complimenter.databinding.FragmentRegisterBinding
+import com.shivam.makemyday.NewMessageFragment.Companion.USERS
+import com.shivam.makemyday.databinding.FragmentRegisterBinding
 
 
 class RegisterFragment : Fragment() {

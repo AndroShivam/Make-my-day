@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,7 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
-import com.shivam.complimenter.databinding.FragmentLoginBinding
+import com.shivam.makemyday.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 

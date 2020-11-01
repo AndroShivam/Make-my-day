@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.shivam.complimenter.LoginFragment"
+        android:name="com.shivam.makemyday.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.shivam.complimenter.RegisterFragment"
+        android:name="com.shivam.makemyday.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_mainActivity"
@@ -26,6 +26,6 @@
     </fragment>
     <activity
         android:id="@+id/mainActivity"
-        android:name="com.shivam.complimenter.MainActivity"
+        android:name="com.shivam.makemyday.MainActivity"
         android:label="MainActivity" />
 </navigation>

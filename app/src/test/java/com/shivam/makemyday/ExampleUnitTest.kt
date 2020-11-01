@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import org.junit.Test
 

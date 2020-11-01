@@ -9,9 +9,9 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.shivam.complimenter"
+        applicationId "com.shivam.makemyday"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -33,6 +33,7 @@ android {
     kotlinOptions{
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
+
     buildFeatures {
         dataBinding true
     }
@@ -49,7 +50,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.7.1'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.preference:preference-ktx:1.1.1'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

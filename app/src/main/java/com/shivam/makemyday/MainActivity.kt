@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.shivam.complimenter.databinding.ActivityMainBinding
+import com.shivam.makemyday.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

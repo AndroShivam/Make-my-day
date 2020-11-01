@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth

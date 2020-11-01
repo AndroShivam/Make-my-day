@@ -1,8 +1,7 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.google.firebase.auth.FirebaseUser
 
 class LoginViewModel : ViewModel(){
     enum class AuthenticationState {

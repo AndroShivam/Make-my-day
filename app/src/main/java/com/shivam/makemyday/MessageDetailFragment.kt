@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.shivam.complimenter.NewMessageFragment.Companion.POSTS
-import com.shivam.complimenter.NewMessageFragment.Companion.REPLIED
-import com.shivam.complimenter.NewMessageFragment.Companion.USERS
-import com.shivam.complimenter.databinding.FragmentMessageDetailBinding
+import com.shivam.makemyday.NewMessageFragment.Companion.POSTS
+import com.shivam.makemyday.NewMessageFragment.Companion.REPLIED
+import com.shivam.makemyday.NewMessageFragment.Companion.USERS
+import com.shivam.makemyday.databinding.FragmentMessageDetailBinding
 
 class MessageDetailFragment : Fragment() {
 

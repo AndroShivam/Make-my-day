@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,7 +13,7 @@ import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.shivam.complimenter.databinding.FragmentNewMessageBinding
+import com.shivam.makemyday.databinding.FragmentNewMessageBinding
 import kotlin.random.Random
 
 

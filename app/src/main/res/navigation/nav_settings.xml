@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.shivam.complimenter.SettingsFragment"
+        android:name="com.shivam.makemyday.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

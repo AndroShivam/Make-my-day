@@ -1,4 +1,4 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,9 +13,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.shivam.complimenter.NewMessageFragment.Companion.REPLIED
-import com.shivam.complimenter.NewMessageFragment.Companion.USERS
-import com.shivam.complimenter.databinding.FragmentNotificationBinding
+import com.shivam.makemyday.NewMessageFragment.Companion.REPLIED
+import com.shivam.makemyday.NewMessageFragment.Companion.USERS
+import com.shivam.makemyday.databinding.FragmentNotificationBinding
 
 
 class NotificationFragment : Fragment(), OnItemClickListener {

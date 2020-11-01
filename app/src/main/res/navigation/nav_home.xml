@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.shivam.complimenter.HomeFragment"
+        android:name="com.shivam.makemyday.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/newMessageFragment"
-        android:name="com.shivam.complimenter.NewMessageFragment"
+        android:name="com.shivam.makemyday.NewMessageFragment"
         android:label="NewMessageFragment">
         <action
             android:id="@+id/action_newMessageFragment_to_nav_home"
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeDetailFragment"
-        android:name="com.shivam.complimenter.HomeDetailFragment"
+        android:name="com.shivam.makemyday.HomeDetailFragment"
         android:label="HomeDetailFragment">
         <action
             android:id="@+id/action_homeDetailFragment_to_nav_home"

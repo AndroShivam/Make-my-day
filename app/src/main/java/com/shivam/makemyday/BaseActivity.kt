@@ -1,11 +1,11 @@
-package com.shivam.complimenter
+package com.shivam.makemyday
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
-import com.shivam.complimenter.databinding.ActivityBaseBinding
+import com.shivam.makemyday.databinding.ActivityBaseBinding
 
 class BaseActivity : AppCompatActivity() {
 
@@ -14,7 +14,7 @@ class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_base)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_base)
     }
 
 
