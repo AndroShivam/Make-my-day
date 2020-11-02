@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.textview.MaterialTextView
+import java.sql.Timestamp
+import java.util.*
 
 class HomeAdapter(
     val options: FirestoreRecyclerOptions<Post>,
@@ -22,6 +24,7 @@ class HomeAdapter(
         holder.userName.text = model.username
         holder.userMessage.text = model.message
         holder.emoji.text = getEmojiFromUnicode(model.emoji)
+        holder.dateTime.text = model.created
     }
 }
 
@@ -34,6 +37,7 @@ class PostViewHolder(
     val userName: MaterialTextView = itemView.findViewById(R.id.home_username)
     val userMessage: MaterialTextView = itemView.findViewById(R.id.home_user_message)
     val emoji: MaterialTextView = itemView.findViewById(R.id.home_emoji)
+    val dateTime: MaterialTextView = itemView.findViewById(R.id.home_time)
 
     init {
         itemView.setOnClickListener(this)
@@ -56,6 +60,7 @@ data class Post(
     var username: String = "username",
     var message: String = "message",
     var reply: String = "reply",
-    var emoji: String = "emoji"
+    var emoji: String = "emoji",
+    var created: String? = "date"
 )
 

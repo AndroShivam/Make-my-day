@@ -8,11 +8,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.makemyday.NewMessageFragment.Companion.POSTS
 import com.shivam.makemyday.NewMessageFragment.Companion.REPLIED
 import com.shivam.makemyday.NewMessageFragment.Companion.USERS
 import com.shivam.makemyday.databinding.FragmentMessageDetailBinding
+import java.text.DateFormat
+import java.util.*
 
 class MessageDetailFragment : Fragment() {
 
@@ -56,11 +59,15 @@ class MessageDetailFragment : Fragment() {
         replyText: String,
     ) {
 
+        val calendar = Calendar.getInstance()
+        val currentDate = DateFormat.getDateInstance().format(calendar.time)
+
         val map = hashMapOf(
             "username" to userName,
             "message" to messageText,
             "reply" to replyText,
-            "emoji" to emoji
+            "emoji" to emoji,
+            "created" to currentDate
         )
 
         firebaseFirestore.collection(USERS).document(senderID!!)
@@ -83,7 +90,6 @@ class MessageDetailFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
-
     }
+
 }

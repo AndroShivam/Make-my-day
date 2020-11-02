@@ -60,14 +60,16 @@ class LoginFragment : Fragment() {
 
     private fun loginFlow(email: String, password: String) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
-            showProgressbar()
+
+            binding.loginProgressbar.visibility = View.VISIBLE
+
             firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         view?.findNavController()
                             ?.navigate(R.id.action_loginFragment_to_mainActivity)
                     } else {
-                        hideProgressbar()
+                        binding.loginProgressbar.visibility = View.INVISIBLE
                         Toast.makeText(
                             requireContext(),
                             "Error ${task.exception?.message}",
@@ -78,16 +80,6 @@ class LoginFragment : Fragment() {
         } else {
             Snackbar.make(requireView(), "Please fill all the fields", Snackbar.LENGTH_LONG).show()
         }
-    }
-
-    private fun hideProgressbar() {
-        binding.loginProgressbar.visibility = View.INVISIBLE
-        binding.loginButton.visibility = View.VISIBLE
-    }
-
-    private fun showProgressbar() {
-        binding.loginProgressbar.visibility = View.VISIBLE
-        binding.loginButton.visibility = View.INVISIBLE
     }
 
 }

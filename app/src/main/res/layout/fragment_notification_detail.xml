@@ -7,45 +7,39 @@
         android:layout_height="match_parent"
         tools:context=".NotificationDetailFragment">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/notification_detail_message_card"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/notification_detail_message"
+            android:layout_width="0dp"
+            app:layout_constraintBottom_toTopOf="@id/notification_detail_reply"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:elevation="16dp"
+            android:background="@drawable/incoming_speech_bubble"
+            android:lineSpacingExtra="8dp"
+            android:padding="16dp"
+            android:text="@string/hi_how_are_you"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/notification_detail_message"
-                android:textStyle="bold"
-                android:textColor="@color/colorBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/lorem_short" />
 
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/notification_detail_reply_card"
-            android:layout_width="match_parent"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/notification_detail_reply"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:elevation="16dp"
+            android:background="@drawable/outgoing_speech_bubble"
+            android:lineSpacingExtra="8dp"
+            android:padding="16dp"
+            android:text="@string/hi_how_are_you"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/notification_detail_message_card">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/notification_detail_reply"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/lorem_short" />
-
-        </com.google.android.material.card.MaterialCardView>
+            app:layout_constraintTop_toBottomOf="@id/notification_detail_message" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -59,7 +59,9 @@ class RegisterFragment : Fragment() {
             )
         ) {
             if (password == confirmPassword) {
-                showProgressBar()
+
+                binding.registerProgressbar.visibility = View.VISIBLE
+
                 firebaseAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
@@ -74,7 +76,7 @@ class RegisterFragment : Fragment() {
                             view?.findNavController()
                                 ?.navigate(R.id.action_registerFragment_to_mainActivity)
                         } else {
-                            hideProgressBar()
+                            binding.registerProgressbar.visibility = View.INVISIBLE
                             Snackbar.make(
                                 requireView(),
                                 "Something went wrong! :(",
@@ -90,16 +92,4 @@ class RegisterFragment : Fragment() {
             Toast.makeText(requireContext(), "fields can't be empty", Toast.LENGTH_SHORT).show()
         }
     }
-
-    private fun showProgressBar() {
-        binding.registerProgressbar.visibility = View.VISIBLE
-        binding.registerButton.visibility = View.INVISIBLE
-    }
-
-    private fun hideProgressBar() {
-        binding.registerProgressbar.visibility = View.INVISIBLE
-        binding.registerButton.visibility = View.VISIBLE
-    }
-
-
 }

@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.makemyday.databinding.FragmentNewMessageBinding
 import kotlin.random.Random
@@ -51,10 +52,14 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
         binding.newMessageButton.setOnClickListener {
             val message = binding.newMessageEditText.text.toString()
 
-            if (!TextUtils.isEmpty(message)) // check emoji null here
+            if (!TextUtils.isEmpty(message) && selectedEmoji != null)
                 storeToFireStore(message, userName!!, selectedEmoji!!)
             else {
-                Toast.makeText(requireContext(), "message field can't be empty", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    requireContext(),
+                    "Select emoji and type message",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }
@@ -78,7 +83,8 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
         val map = hashMapOf(
             "userName" to userName,
             "message" to message,
-            "emoji" to emoji
+            "emoji" to emoji,
+            "created" to FieldValue.serverTimestamp()
         )
 
         firebaseFirestore.collection(USERS).document(currentUserID).collection(SENT).document()
@@ -114,7 +120,8 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
                     "senderUserName" to userName,
                     "senderUserID" to currentUserID,
                     "senderMessage" to message,
-                    "senderEmoji" to emoji
+                    "senderEmoji" to emoji,
+                    "created" to FieldValue.serverTimestamp()
                 )
 
                 firebaseFirestore.collection(USERS).document(list[random]).collection(RECEIVED)
