@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Name"
+            android:id="@+id/settings_username"
             android:inputType="text"
             android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
