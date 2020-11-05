@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -70,9 +69,7 @@ class MessagesFragment : Fragment(), OnItemClickListener {
         val senderUserID: String? = documentSnapshot.getString("senderUserID")
         val senderEmojiInt: Int? = documentSnapshot.getLong("senderEmoji")?.toInt()
 
-
         val senderEmoji = senderEmojiInt.toString()
-
 
         val action = MessagesFragmentDirections.actionNavMessagesToMessageDetailFragment(
             position = position,

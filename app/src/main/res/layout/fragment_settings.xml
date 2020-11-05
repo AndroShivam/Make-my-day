@@ -30,11 +30,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
+            android:id="@+id/settings_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Name"
-            android:id="@+id/settings_username"
             android:inputType="text"
             android:maxLines="1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,9 +46,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="save"
+            android:text="@string/Save"
+            app:layout_constraintBottom_toTopOf="@id/settings_logout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/settings_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_marginTop="436dp"
+            android:text="@string/Logout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

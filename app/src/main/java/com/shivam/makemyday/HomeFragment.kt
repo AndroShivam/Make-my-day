@@ -26,10 +26,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
 
-        binding.homeFab.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_nav_home_to_newMessageFragment)
-        }
-
         val query =
             FirebaseFirestore.getInstance().collection("Posts")
 
@@ -43,6 +39,17 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
         binding.tempRv.setHasFixedSize(true)
         binding.tempRv.adapter = adapter
+
+
+        binding.homeFab.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_nav_home_to_newMessageFragment)
+        }
+
+        binding.homeSwipeRefresh.setOnRefreshListener {
+            binding.homeSwipeRefresh.isRefreshing = true
+            adapter.notifyDataSetChanged()
+            binding.homeSwipeRefresh.isRefreshing = false
+        }
 
         return binding.root
     }

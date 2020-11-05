@@ -22,6 +22,8 @@ class MessageDetailFragment : Fragment() {
     private lateinit var binding: FragmentMessageDetailBinding
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var currentUserID: String
+    private lateinit var senderProfilePicture: String
 
 
     override fun onCreateView(
@@ -31,8 +33,10 @@ class MessageDetailFragment : Fragment() {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_message_detail, container, false)
 
-        firebaseAuth = FirebaseAuth.getInstance()
+
         firebaseFirestore = FirebaseFirestore.getInstance()
+        firebaseAuth = FirebaseAuth.getInstance()
+        currentUserID = firebaseAuth.currentUser?.uid.toString()
 
         val args = arguments?.let { MessageDetailFragmentArgs.fromBundle(it) }
         val senderUserName: String? = args?.senderUserName
@@ -42,6 +46,13 @@ class MessageDetailFragment : Fragment() {
 
 
         binding.messageText.text = args?.senderMessage
+
+
+        firebaseFirestore.collection(USERS).document(senderUserID.toString()).get()
+            .addOnSuccessListener { documentSnapshot ->
+                senderProfilePicture = documentSnapshot.getString("image_url").toString()
+            }
+
 
         binding.messageDetailButton.setOnClickListener {
             val reply = binding.messageDetailEditTxt.text.toString()
@@ -62,10 +73,14 @@ class MessageDetailFragment : Fragment() {
         val calendar = Calendar.getInstance()
         val currentDate = DateFormat.getDateInstance().format(calendar.time)
 
+
         val map = hashMapOf(
             "username" to userName,
             "message" to messageText,
+            "senderID" to senderID,
+            "senderProfilePicture" to senderProfilePicture,
             "reply" to replyText,
+            "replierID" to currentUserID,
             "emoji" to emoji,
             "created" to currentDate
         )

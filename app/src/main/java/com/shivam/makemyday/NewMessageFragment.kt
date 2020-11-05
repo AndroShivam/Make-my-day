@@ -32,6 +32,7 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var currentUserID: String
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private var userName: String = "Friend"
     private var selectedEmoji: Int? = null
 
 
@@ -41,19 +42,25 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_message, container, false)
 
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val userName = sharedPreferences.getString("userName", "Friend")
-        binding.newMessageWelcome.text = userName
 
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
         currentUserID = firebaseAuth.currentUser?.uid.toString()
 
+        firebaseFirestore.collection("Users").document(currentUserID).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    userName = task.result?.getString("user_name").toString()
+                    binding.newMessageWelcome.text = userName
+                }
+            }
+
+
         binding.newMessageButton.setOnClickListener {
             val message = binding.newMessageEditText.text.toString()
 
             if (!TextUtils.isEmpty(message) && selectedEmoji != null)
-                storeToFireStore(message, userName!!, selectedEmoji!!)
+                storeToFireStore(message, userName, selectedEmoji!!)
             else {
                 Toast.makeText(
                     requireContext(),
@@ -90,7 +97,7 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
         firebaseFirestore.collection(USERS).document(currentUserID).collection(SENT).document()
             .set(map).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    setReceive(userName, message, emoji)
+                    setReceiver(userName, message, emoji)
                     view?.findNavController()?.navigate(R.id.action_newMessageFragment_to_nav_home)
                     Toast.makeText(requireContext(), "Message Sent!", Toast.LENGTH_SHORT).show()
                 } else {
@@ -103,7 +110,7 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
             }
     }
 
-    private fun setReceive(userName: String, message: String, emoji: Int) {
+    private fun setReceiver(userName: String, message: String, emoji: Int) {
 
         val list: ArrayList<String> = ArrayList()
 

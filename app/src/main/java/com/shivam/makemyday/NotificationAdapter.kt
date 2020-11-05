@@ -23,7 +23,7 @@ class NotificationAdapter(
 
     override fun onBindViewHolder(holder: RepliedViewHolder, position: Int, model: RepliedMessage) {
         holder.userName.text =
-            holder.context.applicationContext.getString(R.string.replied, model.username)
+            holder.itemView.context.applicationContext.getString(R.string.replied, model.username)
     }
 
 }
@@ -35,7 +35,6 @@ class RepliedViewHolder(
 ) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     val userName: TextView = itemView.findViewById(R.id.notification_username)
-    val context: Context = itemView.context
 
     init {
         itemView.setOnClickListener(this)

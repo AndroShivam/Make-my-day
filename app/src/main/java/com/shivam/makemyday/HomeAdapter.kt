@@ -1,12 +1,16 @@
 package com.shivam.makemyday
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.android.material.textview.MaterialTextView
+import com.google.firebase.firestore.FirebaseFirestore
+import com.mikhaellopez.circularimageview.CircularImageView
 import java.sql.Timestamp
 import java.util.*
 
@@ -25,6 +29,8 @@ class HomeAdapter(
         holder.userMessage.text = model.message
         holder.emoji.text = getEmojiFromUnicode(model.emoji)
         holder.dateTime.text = model.created
+
+        Glide.with(holder.itemView).load(model.senderProfilePicture).into(holder.userProfilePicture)
     }
 }
 
@@ -36,8 +42,11 @@ class PostViewHolder(
 
     val userName: MaterialTextView = itemView.findViewById(R.id.home_username)
     val userMessage: MaterialTextView = itemView.findViewById(R.id.home_user_message)
+    val userProfilePicture: CircularImageView = itemView.findViewById(R.id.home_image)
     val emoji: MaterialTextView = itemView.findViewById(R.id.home_emoji)
     val dateTime: MaterialTextView = itemView.findViewById(R.id.home_time)
+
+    val context: Context = itemView.context
 
     init {
         itemView.setOnClickListener(this)
@@ -59,7 +68,10 @@ private fun getEmojiFromUnicode(unicode: String): String {
 data class Post(
     var username: String = "username",
     var message: String = "message",
+    var senderID: String = "senderID",
+    var senderProfilePicture: String = "senderProfilePicture",
     var reply: String = "reply",
+    var replierID: String = "replierID",
     var emoji: String = "emoji",
     var created: String? = "date"
 )

@@ -24,10 +24,8 @@ class HomeDetailFragment : Fragment() {
         val message: String? = args?.message
         val reply: String? = args?.reply
 
-
         binding.homeDetailMessage.text = message
         binding.homeDetailReply.text = reply
-
 
         return binding.root
     }

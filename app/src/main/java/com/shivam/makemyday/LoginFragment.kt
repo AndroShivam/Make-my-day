@@ -18,7 +18,7 @@ import com.shivam.makemyday.databinding.FragmentLoginBinding
 class LoginFragment : Fragment() {
 
     companion object {
-        const val TAG = "LoginFragment"
+        private const val TAG = "LoginActivity"
     }
 
     private lateinit var binding: FragmentLoginBinding
@@ -43,6 +43,7 @@ class LoginFragment : Fragment() {
         binding.loginGotoReg.setOnClickListener { view ->
             view.findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
+
         return binding.root
     }
 

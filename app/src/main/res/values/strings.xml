@@ -25,4 +25,6 @@
     <string name="reply">Reply</string>
     <string name="emoji">&#128512;</string>
     <string name="hi_how_are_you">Hi, How are you?</string>
+    <string name="Logout">logout</string>
+    <string name="Save">save</string>
 </resources>

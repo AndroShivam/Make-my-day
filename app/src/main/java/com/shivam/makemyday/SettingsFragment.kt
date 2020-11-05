@@ -1,6 +1,7 @@
 package com.shivam.makemyday
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 
@@ -16,7 +17,12 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.shivam.makemyday.databinding.FragmentSettingsBinding
@@ -27,8 +33,9 @@ import com.theartofdev.edmodo.cropper.CropImageView
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
-    private lateinit var profileImageURI: Uri
+    private var profileImageURI: Uri = Uri.EMPTY
 
+    private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var storageReference: StorageReference
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var currentUserID: String
@@ -37,15 +44,39 @@ class SettingsFragment : Fragment() {
         private var STORAGE_PERMISSION_CODE = 123
     }
 
+    @SuppressLint("CheckResult")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
 
+        firebaseFirestore = FirebaseFirestore.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
         firebaseAuth = FirebaseAuth.getInstance()
         currentUserID = firebaseAuth.currentUser?.uid.toString()
+
+
+        firebaseFirestore.collection("Users").document(currentUserID).get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    if (task.result?.exists()!!) {
+
+                        val userName = task.result!!.getString("user_name")
+                        val userProfilePicture = task.result!!.getString("image_url")
+
+                        binding.settingsUsername.setText(userName)
+
+                        val placeHolderRequest = RequestOptions()
+                        placeHolderRequest.placeholder(R.drawable.profile_picture)
+                        Glide.with(this).setDefaultRequestOptions(placeHolderRequest)
+                            .load(userProfilePicture).diskCacheStrategy(
+                                DiskCacheStrategy.ALL
+                            )
+                            .into(binding.settingsProfilePicture)
+                    }
+                }
+            }
 
         binding.settingsProfilePicture.setOnClickListener {
             checkPermission()
@@ -56,25 +87,56 @@ class SettingsFragment : Fragment() {
             saveToFirestore(profileName)
         }
 
+        binding.settingsLogout.setOnClickListener {
+            firebaseAuth.signOut()
+            requireActivity().finish()
+        }
+
+
         return binding.root
     }
 
     private fun saveToFirestore(profileName: String) {
-        if (!TextUtils.isEmpty(profileName)) {
+        if (!TextUtils.isEmpty(profileName) && Uri.EMPTY != profileImageURI) {
+            saveUserName(profileName)
+            saveProfilePicture()
+        } else if (!TextUtils.isEmpty(profileName) && Uri.EMPTY == profileImageURI)
+            saveUserName(profileName)
+        else if (TextUtils.isEmpty(profileName) && Uri.EMPTY != profileImageURI)
+            Toast.makeText(requireContext(), "Please enter your name", Toast.LENGTH_SHORT).show()
+    }
 
-            val imagePath = storageReference.child("Profile_Images").child("$currentUserID.jpg")
+    private fun saveProfilePicture() {
+        val imagePath = storageReference.child("Profile_Images").child("$currentUserID.jpg")
 
-            imagePath.putFile(profileImageURI).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    imagePath.downloadUrl.addOnSuccessListener {
-                        TODO()
-                    }
-                } else {
-                    Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_SHORT)
-                        .show()
+        imagePath.putFile(profileImageURI).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                imagePath.downloadUrl.addOnSuccessListener { uri ->
+                    val field =
+                        hashMapOf("image_url" to uri.toString())
+                    firebaseFirestore.collection(NewMessageFragment.USERS)
+                        .document(currentUserID)
+                        .set(field, SetOptions.merge())
+
+                    Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
                 }
+            } else {
+                Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
+    }
+
+
+    private fun saveUserName(profileName: String) {
+
+        val field =
+            hashMapOf("user_name" to profileName)
+        firebaseFirestore.collection(NewMessageFragment.USERS)
+            .document(currentUserID)
+            .set(field, SetOptions.merge())
+
+        Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
     }
 
     private fun checkPermission() {
