@@ -5,8 +5,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_margin="8dp"
         android:layout_height="match_parent"
+        android:layout_margin="8dp"
         tools:context=".HomeDetailFragment">
 
 
@@ -23,9 +23,19 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/home_detail_reply"
+            app:layout_constraintStart_toEndOf="@id/home_detail_message_image"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/home_detail_message_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/profile_picture"
+            app:layout_constraintEnd_toStartOf="@id/home_detail_message"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/home_detail_message" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/home_detail_reply"
@@ -38,9 +48,19 @@
             android:text="@string/hi_how_are_you"
             android:textColor="@color/colorBlack"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/home_detail_reply_image"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/home_detail_message" />
+
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/home_detail_reply_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/profile_picture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/home_detail_reply"
+            app:layout_constraintTop_toTopOf="@id/home_detail_reply" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

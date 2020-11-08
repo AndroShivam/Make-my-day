@@ -15,6 +15,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.makemyday.databinding.FragmentNewMessageBinding
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 
@@ -32,6 +34,7 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var currentUserID: String
     private lateinit var firebaseFirestore: FirebaseFirestore
+    private lateinit var wholesomeList: List<String>
     private var userName: String = "Friend"
     private var selectedEmoji: Int? = null
 
@@ -43,6 +46,10 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_new_message, container, false)
 
 
+        wholesomeList = listOf(
+            "Don't forget, you can: \n\nStart late \nStart over \nBe unsure \nTry and fail \n\nAnd still succeed",
+        )
+
         firebaseFirestore = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
         currentUserID = firebaseAuth.currentUser?.uid.toString()
@@ -52,21 +59,22 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
                 if (task.isSuccessful) {
                     userName = task.result?.getString("user_name").toString()
                     binding.newMessageWelcome.text = userName
+                } else {
+                    binding.newMessageWelcome.text = getString(R.string.friend)
                 }
             }
 
+        binding.newMessageQuote.text = wholesomeList[Random.nextInt(wholesomeList.size)]
 
         binding.newMessageButton.setOnClickListener {
             val message = binding.newMessageEditText.text.toString()
 
             if (!TextUtils.isEmpty(message) && selectedEmoji != null)
                 storeToFireStore(message, userName, selectedEmoji!!)
-            else {
-                Toast.makeText(
-                    requireContext(),
-                    "Select emoji and type message",
-                    Toast.LENGTH_SHORT
-                )
+            else if (TextUtils.isEmpty(message)) {
+                binding.newMessageEditText.setError("Message can't be empty", null)
+            } else if (selectedEmoji == null) {
+                Toast.makeText(requireContext(), "Please select an emoji", Toast.LENGTH_SHORT)
                     .show()
             }
         }

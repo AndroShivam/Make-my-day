@@ -18,6 +18,7 @@
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan" />
+
         <activity android:name=".BaseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

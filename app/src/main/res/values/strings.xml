@@ -27,4 +27,5 @@
     <string name="hi_how_are_you">Hi, How are you?</string>
     <string name="Logout">logout</string>
     <string name="Save">save</string>
+    <string name="friend">Friend</string>
 </resources>

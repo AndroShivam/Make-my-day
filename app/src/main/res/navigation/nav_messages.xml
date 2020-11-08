@@ -37,5 +37,9 @@
             android:name="senderEmoji"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="created"
+            app:argType="com.google.firebase.Timestamp"
+            app:nullable="true" />
     </fragment>
 </navigation>

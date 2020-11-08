@@ -3,14 +3,11 @@ package com.shivam.makemyday
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
-import androidx.navigation.NavController
 import com.shivam.makemyday.databinding.ActivityBaseBinding
 
 class BaseActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityBaseBinding
-    private var currentNavController : LiveData<NavController>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

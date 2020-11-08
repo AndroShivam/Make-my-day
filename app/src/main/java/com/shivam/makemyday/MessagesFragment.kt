@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
@@ -38,6 +39,7 @@ class MessagesFragment : Fragment(), OnItemClickListener {
 
         val query: Query =
             firebaseFirestore.collection(USERS).document(currentUserID).collection(RECEIVED)
+                .orderBy("created", Query.Direction.DESCENDING)
 
         val firestoreRecyclerOptions: FirestoreRecyclerOptions<ReceivedMessage> =
             FirestoreRecyclerOptions.Builder<ReceivedMessage>()
@@ -68,7 +70,7 @@ class MessagesFragment : Fragment(), OnItemClickListener {
         val senderMessage: String? = documentSnapshot.getString("senderMessage")
         val senderUserID: String? = documentSnapshot.getString("senderUserID")
         val senderEmojiInt: Int? = documentSnapshot.getLong("senderEmoji")?.toInt()
-
+        val created: Timestamp? = documentSnapshot.getTimestamp("created")
         val senderEmoji = senderEmojiInt.toString()
 
         val action = MessagesFragmentDirections.actionNavMessagesToMessageDetailFragment(
@@ -76,7 +78,8 @@ class MessagesFragment : Fragment(), OnItemClickListener {
             senderUserName = senderUserName,
             senderUserID = senderUserID,
             senderMessage = senderMessage,
-            senderEmoji = senderEmoji
+            senderEmoji = senderEmoji,
+            created = created
         )
         view?.findNavController()?.navigate(action)
     }

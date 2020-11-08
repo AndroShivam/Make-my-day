@@ -41,5 +41,13 @@
             android:name="reply"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="senderProfilePicture"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="replierProfilePicture"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
 </navigation>

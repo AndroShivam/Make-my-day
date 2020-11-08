@@ -1,6 +1,7 @@
 package com.shivam.makemyday
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,15 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.shivam.makemyday.databinding.FragmentHomeBinding
+import java.util.*
 
 
 class HomeFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var adapter: FirestoreRecyclerAdapter<Post, PostViewHolder>
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,7 +30,7 @@ class HomeFragment : Fragment(), OnItemClickListener {
 
         val query =
             FirebaseFirestore.getInstance().collection("Posts")
-
+                .orderBy("date", Query.Direction.DESCENDING)
 
         val firestoreRecyclerOptions: FirestoreRecyclerOptions<Post> =
             FirestoreRecyclerOptions.Builder<Post>()
@@ -54,6 +56,25 @@ class HomeFragment : Fragment(), OnItemClickListener {
         return binding.root
     }
 
+
+    override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
+
+        val message: String? = documentSnapshot.getString("message")
+        val reply: String? = documentSnapshot.getString("reply")
+        val senderProfilePicture: String? = documentSnapshot.getString("senderProfilePicture")
+        val replierProfilePicture: String? = documentSnapshot.getString("replierProfilePicture")
+
+        val action = HomeFragmentDirections.actionNavHomeToHomeDetailFragment(
+            message = message,
+            reply = reply,
+            senderProfilePicture = senderProfilePicture,
+            replierProfilePicture = replierProfilePicture
+        )
+
+        view?.findNavController()?.navigate(action)
+    }
+
+
     override fun onStart() {
         super.onStart()
         adapter.startListening()
@@ -63,20 +84,6 @@ class HomeFragment : Fragment(), OnItemClickListener {
         super.onStop()
         adapter.stopListening()
     }
-
-    override fun onItemClick(documentSnapshot: DocumentSnapshot, position: Int) {
-
-        val message: String? = documentSnapshot.getString("message")
-        val reply: String? = documentSnapshot.getString("reply")
-
-        val action = HomeFragmentDirections.actionNavHomeToHomeDetailFragment(
-            message = message,
-            reply = reply
-        )
-
-        view?.findNavController()?.navigate(action)
-    }
-
 }
 
 interface OnItemClickListener {

@@ -1,14 +1,16 @@
 package com.shivam.makemyday
 
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.shivam.makemyday.NewMessageFragment.Companion.POSTS
 import com.shivam.makemyday.NewMessageFragment.Companion.REPLIED
@@ -24,6 +26,8 @@ class MessageDetailFragment : Fragment() {
     private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var currentUserID: String
     private lateinit var senderProfilePicture: String
+    private lateinit var replierProfilePicture: String
+    private lateinit var replyRef: DocumentReference
 
 
     override fun onCreateView(
@@ -43,20 +47,36 @@ class MessageDetailFragment : Fragment() {
         val senderUserID: String? = args?.senderUserID
         val senderMessage: String? = args?.senderMessage
         val senderEmoji: String? = args?.senderEmoji
-
+        val created: Timestamp? = args?.created
 
         binding.messageText.text = args?.senderMessage
 
+        replyRef = firebaseFirestore.collection(USERS).document(senderUserID.toString())
 
-        firebaseFirestore.collection(USERS).document(senderUserID.toString()).get()
+        replyRef.get()
             .addOnSuccessListener { documentSnapshot ->
                 senderProfilePicture = documentSnapshot.getString("image_url").toString()
+            }
+
+        firebaseFirestore.collection(USERS).document(currentUserID).get()
+            .addOnSuccessListener { documentSnapshot ->
+                replierProfilePicture = documentSnapshot.getString("image_url").toString()
             }
 
 
         binding.messageDetailButton.setOnClickListener {
             val reply = binding.messageDetailEditTxt.text.toString()
-            reply(senderUserName!!, senderUserID, senderMessage!!, senderEmoji!!, reply)
+            if (!TextUtils.isEmpty(reply))
+                reply(
+                    senderUserName!!,
+                    senderUserID,
+                    senderMessage!!,
+                    senderEmoji!!,
+                    reply,
+                    created!!
+                )
+            else
+                binding.messageDetailEditTxt.error = "Can't be empty"
         }
 
         return binding.root
@@ -68,6 +88,7 @@ class MessageDetailFragment : Fragment() {
         messageText: String?,
         emoji: String?,
         replyText: String,
+        created: Timestamp
     ) {
 
         val calendar = Calendar.getInstance()
@@ -81,12 +102,13 @@ class MessageDetailFragment : Fragment() {
             "senderProfilePicture" to senderProfilePicture,
             "reply" to replyText,
             "replierID" to currentUserID,
+            "replierProfilePicture" to replierProfilePicture,
             "emoji" to emoji,
-            "created" to currentDate
+            "created" to created,
+            "date" to currentDate,
+            "replied_already" to true
         )
-
-        firebaseFirestore.collection(USERS).document(senderID!!)
-            .collection(REPLIED).document().set(map)
+        replyRef.collection(REPLIED).document().set(map)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     firebaseFirestore.collection(POSTS).document().set(map)
@@ -105,6 +127,8 @@ class MessageDetailFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+
     }
 
 }

@@ -3,13 +3,13 @@ package com.shivam.makemyday
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 
-class LoginViewModel : ViewModel(){
+class UserViewModel : ViewModel() {
     enum class AuthenticationState {
         AUTHENTICATED, UNAUTHENTICATED
     }
 
     val authenticationState = FirebaseUserLiveData().map { user ->
-        if(user != null)
+        if (user != null)
             AuthenticationState.AUTHENTICATED
         else
             AuthenticationState.UNAUTHENTICATED

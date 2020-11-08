@@ -28,7 +28,7 @@ class HomeAdapter(
         holder.userName.text = model.username
         holder.userMessage.text = model.message
         holder.emoji.text = getEmojiFromUnicode(model.emoji)
-        holder.dateTime.text = model.created
+        holder.dateTime.text = model.date
 
         Glide.with(holder.itemView).load(model.senderProfilePicture).into(holder.userProfilePicture)
     }
@@ -73,6 +73,6 @@ data class Post(
     var reply: String = "reply",
     var replierID: String = "replierID",
     var emoji: String = "emoji",
-    var created: String? = "date"
+    var date: String? = "date"
 )
 

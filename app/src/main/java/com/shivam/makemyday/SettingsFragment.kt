@@ -100,6 +100,7 @@ class SettingsFragment : Fragment() {
         if (!TextUtils.isEmpty(profileName) && Uri.EMPTY != profileImageURI) {
             saveUserName(profileName)
             saveProfilePicture()
+            Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
         } else if (!TextUtils.isEmpty(profileName) && Uri.EMPTY == profileImageURI)
             saveUserName(profileName)
         else if (TextUtils.isEmpty(profileName) && Uri.EMPTY != profileImageURI)
@@ -117,8 +118,6 @@ class SettingsFragment : Fragment() {
                     firebaseFirestore.collection(NewMessageFragment.USERS)
                         .document(currentUserID)
                         .set(field, SetOptions.merge())
-
-                    Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(requireContext(), "Something went wrong!", Toast.LENGTH_SHORT)
@@ -129,14 +128,11 @@ class SettingsFragment : Fragment() {
 
 
     private fun saveUserName(profileName: String) {
-
         val field =
             hashMapOf("user_name" to profileName)
         firebaseFirestore.collection(NewMessageFragment.USERS)
             .document(currentUserID)
             .set(field, SetOptions.merge())
-
-        Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
     }
 
     private fun checkPermission() {
@@ -181,13 +177,10 @@ class SettingsFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-
-
         when (requestCode) {
             STORAGE_PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     openGallery()
-                }
             }
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }

@@ -2,7 +2,6 @@ package com.shivam.makemyday
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,12 +16,8 @@ import com.shivam.makemyday.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
-    companion object {
-        private const val TAG = "LoginActivity"
-    }
-
     private lateinit var binding: FragmentLoginBinding
-    private val viewModel by viewModels<LoginViewModel>()
+    private val viewModel by viewModels<UserViewModel>()
     private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
@@ -37,7 +32,7 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val email = binding.loginEmail.text.toString()
             val password = binding.loginPassword.text.toString()
-            loginFlow(email, password)
+            login(email, password)
         }
 
         binding.loginGotoReg.setOnClickListener { view ->
@@ -47,19 +42,7 @@ class LoginFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.authenticationState.observe(viewLifecycleOwner, { authenticationState ->
-            when (authenticationState) {
-                LoginViewModel.AuthenticationState.AUTHENTICATED -> view.findNavController()
-                    .navigate(R.id.mainActivity)
-                else -> Log.e(TAG, "User not Authenticated!")
-            }
-        })
-    }
-
-    private fun loginFlow(email: String, password: String) {
+    private fun login(email: String, password: String) {
         if (!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)) {
 
             binding.loginProgressbar.visibility = View.VISIBLE
@@ -83,4 +66,20 @@ class LoginFragment : Fragment() {
         }
     }
 
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
+//        viewModel.authenticationState.observe(viewLifecycleOwner, { authenticationState ->
+//            when (authenticationState) {
+//                UserViewModel.AuthenticationState.AUTHENTICATED -> view.findNavController()
+//                    .navigate(R.id.mainActivity)
+//            }
+//        })
+//    }
+
+    override fun onStart() {
+        super.onStart()
+        if (firebaseAuth.currentUser != null)
+            view?.findNavController()?.navigate(R.id.mainActivity)
+    }
 }
