@@ -1,12 +1,13 @@
 <h1 align="center">Make my day</h1>
 
 <p align="center">  
-Make my day is an application where you send a message and some random replies to you.
+An App to spread kindness, to make people smile just using a single message, Make my day is an application where you can share how you're feeling and a random user will receive your message and replies to you.
+
 </p>
 </br>
 
 ## Download
-Go to the [Releases](https://github.com/skydoves/Pokedex/releases) to download the latest APK.
+Go to the [Releases](borken for now) to download the latest APK.
 
 ## Screenshots
 
