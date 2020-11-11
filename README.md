@@ -6,10 +6,10 @@ An App to spread kindness, to make people smile just using a single message, Mak
 </p>
 </br>
 
-## Download
+### Download
 Go to the [Releases](borken for now) to download the latest APK.
 
-## Screenshots
+### Screenshots
 
 [<img src="https://user-images.githubusercontent.com/52043419/98465379-b6ef4800-21ee-11eb-86ca-124a004674d3.jpg" width=160>](https://user-images.githubusercontent.com/52043419/98465379-b6ef4800-21ee-11eb-86ca-124a004674d3.jpg)
 [<img src="https://user-images.githubusercontent.com/52043419/98465391-cd959f00-21ee-11eb-8dd9-01abb931f0c2.jpg" width=160>](https://user-images.githubusercontent.com/52043419/98465391-cd959f00-21ee-11eb-8dd9-01abb931f0c2.jpg)
@@ -27,3 +27,6 @@ Go to the [Releases](borken for now) to download the latest APK.
 * Kotlin
 * Firebase
 * Glide
+
+### Credits
+[Emotion faces Image](https://creativemarket.com/Saggitarius/627309-Emoji-faces-simple-icons?u=Areumnara)
