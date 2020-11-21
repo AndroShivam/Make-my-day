@@ -10,12 +10,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import androidx.preference.PreferenceManager
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
+import com.shivam.makemyday.FirebaseUser.Companion.currentUserID
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseFirestore
 import com.shivam.makemyday.databinding.FragmentNewMessageBinding
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.random.Random
 
@@ -31,13 +29,9 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
     }
 
     private lateinit var binding: FragmentNewMessageBinding
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var currentUserID: String
-    private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var wholesomeList: List<String>
     private var userName: String = "Friend"
     private var selectedEmoji: Int? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,11 +44,8 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
             "Don't forget, you can: \n\nStart late \nStart over \nBe unsure \nTry and fail \n\nAnd still succeed",
         )
 
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
-        currentUserID = firebaseAuth.currentUser?.uid.toString()
 
-        firebaseFirestore.collection("Users").document(currentUserID).get()
+        firebaseFirestore.collection("Users").document(currentUserID.toString()).get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     userName = task.result?.getString("user_name").toString()
@@ -102,7 +93,8 @@ class NewMessageFragment : Fragment(), View.OnClickListener {
             "created" to FieldValue.serverTimestamp()
         )
 
-        firebaseFirestore.collection(USERS).document(currentUserID).collection(SENT).document()
+        firebaseFirestore.collection(USERS).document(currentUserID.toString()).collection(SENT)
+            .document()
             .set(map).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     setReceiver(userName, message, emoji)

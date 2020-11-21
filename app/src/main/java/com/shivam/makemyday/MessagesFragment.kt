@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.shivam.makemyday.FirebaseUser.Companion.currentUserID
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseFirestore
 import com.shivam.makemyday.NewMessageFragment.Companion.RECEIVED
 import com.shivam.makemyday.NewMessageFragment.Companion.USERS
 import com.shivam.makemyday.databinding.FragmentMessagesBinding
@@ -22,7 +24,6 @@ import com.shivam.makemyday.databinding.FragmentMessagesBinding
 class MessagesFragment : Fragment(), OnItemClickListener {
 
     private lateinit var binding: FragmentMessagesBinding
-    private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var adapter: FirestoreRecyclerAdapter<ReceivedMessage, UserViewHolder>
 
 
@@ -32,13 +33,10 @@ class MessagesFragment : Fragment(), OnItemClickListener {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_messages, container, false)
 
-        firebaseFirestore = FirebaseFirestore.getInstance()
-
-        val firebaseAuth = FirebaseAuth.getInstance()
-        val currentUserID = firebaseAuth.currentUser?.uid.toString()
 
         val query: Query =
-            firebaseFirestore.collection(USERS).document(currentUserID).collection(RECEIVED)
+            firebaseFirestore.collection(USERS).document(currentUserID.toString())
+                .collection(RECEIVED)
                 .orderBy("created", Query.Direction.DESCENDING)
 
         val firestoreRecyclerOptions: FirestoreRecyclerOptions<ReceivedMessage> =

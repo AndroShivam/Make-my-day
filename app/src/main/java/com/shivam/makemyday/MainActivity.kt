@@ -21,7 +21,6 @@ class MainActivity : AppCompatActivity() {
         setupNavigationBar()
     }
 
-
     private fun setupNavigationBar() {
         val bottomNavigationView = binding.bottomNavigationBar
         val navGraphIds = listOf(

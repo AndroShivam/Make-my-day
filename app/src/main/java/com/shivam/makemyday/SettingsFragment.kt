@@ -17,6 +17,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -25,6 +26,10 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.shivam.makemyday.FirebaseUser.Companion.currentUserID
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseAuth
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseFirestore
+import com.shivam.makemyday.FirebaseUser.Companion.storageReference
 import com.shivam.makemyday.databinding.FragmentSettingsBinding
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
@@ -34,11 +39,6 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private var profileImageURI: Uri = Uri.EMPTY
-
-    private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var storageReference: StorageReference
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var currentUserID: String
 
     companion object {
         private var STORAGE_PERMISSION_CODE = 123
@@ -51,13 +51,8 @@ class SettingsFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false)
 
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        storageReference = FirebaseStorage.getInstance().reference
-        firebaseAuth = FirebaseAuth.getInstance()
-        currentUserID = firebaseAuth.currentUser?.uid.toString()
 
-
-        firebaseFirestore.collection("Users").document(currentUserID).get()
+        firebaseFirestore.collection("Users").document(currentUserID.toString()).get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     if (task.result?.exists()!!) {
@@ -89,7 +84,7 @@ class SettingsFragment : Fragment() {
 
         binding.settingsLogout.setOnClickListener {
             firebaseAuth.signOut()
-            requireActivity().finish()
+            findNavController().popBackStack()
         }
 
 
@@ -116,7 +111,7 @@ class SettingsFragment : Fragment() {
                     val field =
                         hashMapOf("image_url" to uri.toString())
                     firebaseFirestore.collection(NewMessageFragment.USERS)
-                        .document(currentUserID)
+                        .document(currentUserID!!)
                         .set(field, SetOptions.merge())
                 }
             } else {
@@ -131,7 +126,7 @@ class SettingsFragment : Fragment() {
         val field =
             hashMapOf("user_name" to profileName)
         firebaseFirestore.collection(NewMessageFragment.USERS)
-            .document(currentUserID)
+            .document(currentUserID!!)
             .set(field, SetOptions.merge())
     }
 

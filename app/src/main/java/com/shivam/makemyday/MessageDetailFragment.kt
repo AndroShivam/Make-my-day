@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
+import com.shivam.makemyday.FirebaseUser.Companion.currentUserID
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseFirestore
 import com.shivam.makemyday.NewMessageFragment.Companion.POSTS
 import com.shivam.makemyday.NewMessageFragment.Companion.REPLIED
 import com.shivam.makemyday.NewMessageFragment.Companion.USERS
@@ -22,9 +22,6 @@ import java.util.*
 class MessageDetailFragment : Fragment() {
 
     private lateinit var binding: FragmentMessageDetailBinding
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseFirestore: FirebaseFirestore
-    private lateinit var currentUserID: String
     private lateinit var senderProfilePicture: String
     private lateinit var replierProfilePicture: String
     private lateinit var replyRef: DocumentReference
@@ -36,11 +33,6 @@ class MessageDetailFragment : Fragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_message_detail, container, false)
-
-
-        firebaseFirestore = FirebaseFirestore.getInstance()
-        firebaseAuth = FirebaseAuth.getInstance()
-        currentUserID = firebaseAuth.currentUser?.uid.toString()
 
         val args = arguments?.let { MessageDetailFragmentArgs.fromBundle(it) }
         val senderUserName: String? = args?.senderUserName
@@ -58,7 +50,7 @@ class MessageDetailFragment : Fragment() {
                 senderProfilePicture = documentSnapshot.getString("image_url").toString()
             }
 
-        firebaseFirestore.collection(USERS).document(currentUserID).get()
+        firebaseFirestore.collection(USERS).document(currentUserID.toString()).get()
             .addOnSuccessListener { documentSnapshot ->
                 replierProfilePicture = documentSnapshot.getString("image_url").toString()
             }
@@ -127,8 +119,6 @@ class MessageDetailFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
-
     }
 
 }

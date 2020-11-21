@@ -8,17 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseAuth
 import com.shivam.makemyday.databinding.FragmentLoginBinding
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
-    private val viewModel by viewModels<UserViewModel>()
-    private lateinit var firebaseAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,8 +23,6 @@ class LoginFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(layoutInflater, R.layout.fragment_login, container, false)
-
-        firebaseAuth = FirebaseAuth.getInstance()
 
         binding.loginButton.setOnClickListener {
             val email = binding.loginEmail.text.toString()
@@ -65,17 +60,6 @@ class LoginFragment : Fragment() {
             Snackbar.make(requireView(), "Please fill all the fields", Snackbar.LENGTH_LONG).show()
         }
     }
-
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        viewModel.authenticationState.observe(viewLifecycleOwner, { authenticationState ->
-//            when (authenticationState) {
-//                UserViewModel.AuthenticationState.AUTHENTICATED -> view.findNavController()
-//                    .navigate(R.id.mainActivity)
-//            }
-//        })
-//    }
 
     override fun onStart() {
         super.onStart()

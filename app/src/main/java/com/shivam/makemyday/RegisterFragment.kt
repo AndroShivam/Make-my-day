@@ -12,8 +12,8 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseAuth
+import com.shivam.makemyday.FirebaseUser.Companion.firebaseFirestore
 import com.shivam.makemyday.NewMessageFragment.Companion.USERS
 import com.shivam.makemyday.databinding.FragmentRegisterBinding
 
@@ -21,8 +21,6 @@ import com.shivam.makemyday.databinding.FragmentRegisterBinding
 class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
-    private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseFirestore: FirebaseFirestore
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -31,9 +29,6 @@ class RegisterFragment : Fragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(layoutInflater, R.layout.fragment_register, container, false)
-
-        firebaseAuth = FirebaseAuth.getInstance()
-        firebaseFirestore = FirebaseFirestore.getInstance()
 
         val navHostFragment =
             requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
